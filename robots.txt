@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://professor100destino-boop.github.io/acervo-jst/sitemap.xml
