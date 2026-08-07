@@ -3,7 +3,7 @@ name: Padronizar paginas anuais como 1922
 on:
   push:
     paths:
-      - 'scripts/padronizar_paginas_anos.py'
+      - 'scripts/padronizar_paginas_anos_v2.py'
       - '.github/workflows/padronizar-paginas-anos.yml'
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
           ref: main
 
       - name: Gerar paginas anuais
-        run: python scripts/padronizar_paginas_anos.py
+        run: python scripts/padronizar_paginas_anos_v2.py
 
       - name: Publicar paginas padronizadas
         run: |
