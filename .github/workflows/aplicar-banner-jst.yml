@@ -21,7 +21,7 @@ jobs:
         run: |
           python -m pip install --quiet gdown
           mkdir -p assets
-          gdown --id 1_a5HMudOZmEr82BLtvX1bqK16Zy8yb7O -O assets/banner_acervo_jst.png
+          gdown 1_a5HMudOZmEr82BLtvX1bqK16Zy8yb7O -O assets/banner_acervo_jst.png
           test -s assets/banner_acervo_jst.png
 
       - name: Substituir capa marrom pela arte histórica
