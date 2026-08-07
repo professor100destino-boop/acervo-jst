@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/integrar_1931.py'
+      - 'scripts/polir_1931.py'
       - '.github/workflows/integrar-1931.yml'
 
 permissions:
@@ -27,7 +28,9 @@ jobs:
           gdown 'https://drive.google.com/uc?id=1EJ3TynEsnPA66rIS9dxOQ8vA-nMQSyUY' -O '/tmp/jst/1931.pdf'
 
       - name: Gerar indice e atualizar o site
-        run: python scripts/integrar_1931.py
+        run: |
+          python scripts/integrar_1931.py
+          python scripts/polir_1931.py
 
       - name: Publicar integracao
         run: |
