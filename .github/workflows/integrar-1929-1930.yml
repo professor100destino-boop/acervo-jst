@@ -1,0 +1,105 @@
+name: Integrar 1929 e 1930 ao acervo
+
+on:
+  push:
+    paths:
+      - '.github/workflows/integrar-1929-1930.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  integrar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Instalar ferramentas
+        run: |
+          python -m pip install --quiet gdown pymupdf
+
+      - name: Baixar PDFs anuais de origem
+        run: |
+          mkdir -p /tmp/jst
+          gdown 'https://drive.google.com/uc?id=18ZmFkQPkRL5dSXhwXDbiXr34ifXDR0uo' -O '/tmp/jst/1929.pdf'
+          gdown 'https://drive.google.com/uc?id=1Ye6iDuiBClCLLSBhnpyV3lvoEcsKWHbk' -O '/tmp/jst/1930.pdf'
+
+      - name: Gerar índices e páginas dos anos
+        run: |
+          python <<'PY'
+          import fitz, json, re, html
+          from pathlib import Path
+          from datetime import date
+
+          entries_raw=json.loads(r'''{"1929":[["1929-01-05",1,4,"17zaga7Gi5g53OMQAVehxcCUV1-lmenER"],["1929-01-19",5,8,"1xwMFVQJc9yUSttR1rvVrXTTVVIxgIXGy"],["1929-01-26",9,12,"1RhaannPuzP8jLRiKyYpURqjfqKj7Mlut"],["1929-02-02",13,16,"1qQA5aG6eg9vRDGJzRNZZKCCQJUQ4mmJ5"],["1929-02-09",17,20,"1Fw5uhgby7HIEzKRBUtnQI7Dubb7jeWcm"],["1929-02-16",21,24,"1_rJlR6dA7MnaDLIdmiA4FL8paPIZ7Xxo"],["1929-02-23",25,28,"1FhKNIuWS9WYmjxX-m03o1x_42efgdS6u"],["1929-03-02",29,32,"1rqZB93u9wphGERyoUU-61_dQhoCjtyFh"],["1929-03-09",33,36,"1NfKusKZnlmsHBhOuZ9hYABSV9GfcrbbQ"],["1929-03-16",37,40,"1QuBxLbVL1YMlbYvuEiWlmJzLAx_-kGPF"],["1929-03-23",41,44,"1vA2ZtDEsi27fEdLuLGYG73b1g5HGH16a"],["1929-04-06",45,48,"1G3y8bgNV9ckDnFCdj5lb4HXkhCWJjDLB"],["1929-04-13",49,52,"1xxQKecPgs8Vs0KJ0RRK3byOGcbCRQ5aM"],["1929-04-20",53,56,"1-wA5V0elYzwjMC4u3o8ueYXmFa5Ml5F7"],["1929-04-27",57,60,"1qIK1Fv4QPVP6xmp2ThnltAVDiVz4n9GG"],["1929-05-04",61,64,"1_et14IuRzHY5S2KxRQOdO-FIJTYOMGtG"],["1929-05-11",65,68,"15yn2RJGq07BzrjZKQVqbfJs0KVax0SLM"],["1929-05-18",69,72,"1icJdw9Nz89R47yvB4fbfnwsHZGMTF1fZ"],["1929-05-25",73,76,"1v3hJHoQEWyB2K3wtbssYUIVDvOzJDUpU"],["1929-06-01",77,80,"1w1xE_7TijOm16g7IRH0wgI17w8kja1tU"],["1929-06-08",81,84,"1mIYXOBitS-0-DFMTkyvD-0dqhHx0cU9D"],["1929-06-15",85,88,"1NYRnDAkukmFHWPVhx3ExkaNEmJEo7l1k"],["1929-06-22",89,92,"1Cq5MqfJ9h7TLYCgUQ6tPQwbp-Ml2atgo"],["1929-07-01",93,98,"19nXSW-MB6TsXi9U0mI-BK55_HyjoCur2"],["1929-07-13",99,102,"1ZVPsHs8XpJyAUWh6ULhNsofF-I_9djLM"],["1929-07-20",103,104,"1I1OQKJZuSS8t-EYiU7fr7eP5Cc3kf-37"],["1929-07-27",105,108,"1zVxJUMpBadx2OsxR83HU4P5-zCZ6m4My"],["1929-08-03",109,112,"1Q3U2EF6zEHuutq1A_IT-CgAIUQgRp4WW"],["1929-08-10",113,116,"1X6dco4QAkHQI7iRsJJTThgz_l0QSELja"],["1929-08-17",117,118,"17NhOBbGuXeltLive9dULAiqHWhmSOOiL"],["1929-08-24",119,122,"108Va1LGLCIEd-5ScN5XVQ6PlE-xww9Z6"],["1929-08-31",123,126,"1qLj7f_j599wiNfFNrp-1_TzZwgtrUAiv"],["1929-09-07",127,130,"1wcmV52M2DwQbRQgE7cxiP1V6V1w2e-2F"],["1929-09-14",131,134,"16JK9ljFp7dW0PBnpG0dRxRmXP85osyBV"],["1929-09-21",135,138,"1AHw1uWtZlv421Iv14-gkym38JWTj0dkZ"],["1929-09-28",139,142,"1W0eQ2RpVyQ2nMrifUjeh9l1lxm5eE91H"],["1929-10-05",143,146,"1J2uq-6hljcKauJ6a70MW0Q7ex8PrM7Bv"],["1929-10-12",147,150,"1ZzTzPJO_J9U2EDimx0ewNrXSsfjgLjyT"],["1929-10-19",151,154,"102m7mCPMhOFD5LPOzzuR8ahcdixLr2cT"],["1929-10-26",155,158,"1BpYSDdmgUj5wDKCM0O_2DEt2XJeoGMNe"],["1929-11-02",159,162,"1qLBcCBMzvEF0TCOey0DqzkguazK8K47r"],["1929-11-09",163,166,"1P65_E3Hf-oO-x7CwDnflsZ3MV9AzJP9_"],["1929-11-16",167,170,"1_3BpngM4wwNEXb6OM-Yn3RpLhe7KswsL"],["1929-11-23",171,174,"1GSyMaZt7fyRpsURAtvQNi8cIL54NOIu4"],["1929-11-30",175,178,"1_-s6c74qAsx5AkirVgZsxCk3DQ9JNmOg"],["1929-12-07",179,182,"1tVczn52XVWN3tCjtp0Pgl8gTxYEULQy8"],["1929-12-14",183,186,"1hA5xE3qPYeutIEupT8eEHZt2EH9a1j0d"],["1929-12-28",187,190,"1GjofunUv43HjEeYvSYFwX-FW0hCrFn5i"]],"1930":[["1930-01-18",1,4,"1ve5Ts8eiQ6BhZZadLebVKhupsauwV2HE"],["1930-01-25",5,8,"1MKW3PsKQM1lDlQ-zOca4BoBb-dJm7id4"],["1930-02-01",9,12,"1BN1DFKJyziV734QfgXx9qlAZf-n833EW"],["1930-02-08",13,16,"1wpSk7ouJYxQYQYHEtCs5R979R6A6MdWe"],["1930-02-22",17,20,"1gPhE7NMjn_MntORf39Td0UV0J06a3ETp"],["1930-03-01",21,24,"1Go4NG3kj7rPxDdUqF6tj5W4GGoKYXtj7"],["1930-03-08",25,28,"1yEZNjAJnRUq2LMi67YWXVF7EVVICFC4p"],["1930-03-29",29,32,"1-TGlvXUGTM9ifgC8iXWHTIUQ_qmNJBSW"],["1930-04-12",33,36,"1y73RfIPSwdX0qh7hepcq9nnQ8nG3PGp9"],["1930-05-03",37,40,"1w2z0ZWqEs9vcByfaMjd3RMUFS2dIfVYm"],["1930-05-10",41,44,"16KLhTRwygmb8qbcCy78xGDhzvcuyDeOa"],["1930-05-17",45,48,"1kZjCsdjO0VpqxlgdkH8qMfktcotDmHT9"],["1930-05-24",49,52,"1eTNxtopBy1bVu02txS50LBD0tNZax6be"],["1930-06-07",53,56,"1EWTgKcVKTjP1dRU-yM--e8ulgfmgFGNA"],["1930-06-21",57,60,"1_nw7UJCYG4W7Azl9-QFVrW7yXVWyYF9X"],["1930-07-01",61,66,"1PdhhoSpmCt0LpQwAIiULZ-f3hlrpRlW_"],["1930-07-12",67,70,"1hPGbE5x7QCL099GLM3L3voXt_92TCvXZ"],["1930-07-19",71,74,"1JVTJ7vA6-IbpOk2towQcJ_jeLEfx1DSx"],["1930-07-26",75,78,"1SXvjIgmiML0triuvvbWNZyX36Et6CJ7A"],["1930-08-02",79,82,"19NA9YqFpIE2CdH5oN7YOhq4Qgzi-XhtZ"],["1930-08-09",83,86,"1WUjNYA-HABSF-33LUa8BxgCJEHZgWWVi"],["1930-08-16",87,90,"1cXqgMFDFMh069zytRICPvTkPB6LVAgRI"],["1930-08-23",91,94,"1WOX_MjcFzzJdZsIqTTx4nKFtmdFau_xa"],["1930-09-20",95,98,"1JceF3pf_t_ZLx7HQLPZpnIoyIOvY-ebh"],["1930-09-27",99,102,"1JQ-zgM6Z2dGL6qEIC4jabGv7N0lnTL-k"],["1930-10-04",103,106,"1ZJyoBfMaiyPS84UkTDnbvsX9c7h6Exxe"],["1930-11-22",107,110,"1FXDVzcAiDtYUM-FpKc5XjU9J-tOZun39"],["1930-11-29",111,114,"1g5uo9ufC1fx9NQz-5QtsnRrxunNnPSjl"],["1930-12-06",115,118,"16VUx6eCxkyfLLhCYuzngqmt3FkAoAbD0"],["1930-12-13",119,122,"138it1Ed6XBax02018c7Mkmai7QLBG9Ar"],["1930-12-20",123,126,"1lGUCWoP-vc60EpTM71zM4gA63K5BLoYQ"],["1930-12-27",127,131,"1Tk3s4M7uU7fLu6uFqqGfXNxmAJ8JRQ6Q"]]}''')
+          entries={int(k):v for k,v in entries_raw.items()}
+          sources={1929:('/tmp/jst/1929.pdf','18ZmFkQPkRL5dSXhwXDbiXr34ifXDR0uo'),1930:('/tmp/jst/1930.pdf','1Ye6iDuiBClCLLSBhnpyV3lvoEcsKWHbk')}
+          months={1:'janeiro',2:'fevereiro',3:'março',4:'abril',5:'maio',6:'junho',7:'julho',8:'agosto',9:'setembro',10:'outubro',11:'novembro',12:'dezembro'}
+          def dlabel(iso):
+              d=date.fromisoformat(iso); return f'{d.day} de {months[d.month]} de {d.year}'
+          def clean(t):
+              return re.sub(r'\s+',' ',t.replace('\x00',' ')).strip()
+          def year_html(year,rows,source_id,total_pages):
+              cards=[]
+              for iso,start,end,pdfid in rows:
+                  label=dlabel(iso); n=end-start+1
+                  cards.append(f'<article class="card"><span class="badge">PDF pesquisável</span><h2>{html.escape(label)}</h2><p>{n} página{"s" if n!=1 else ""} · páginas {start}–{end} do volume anual</p><div class="actions"><button class="btn read" data-id="{pdfid}" data-title="{html.escape(label)}">Ler</button><a class="btn dark" href="https://drive.google.com/file/d/{pdfid}/view" target="_blank" rel="noopener">Abrir no Drive</a></div></article>')
+              cards_html='\n'.join(cards)
+              template='''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JST __YEAR__ — Acervo Digital</title><style>:root{--vinho:#591f22;--vinho2:#2d1719;--ouro:#9b7838;--tinta:#2c241b;--fundo:#eee7da}*{box-sizing:border-box}body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}.top{background:linear-gradient(125deg,var(--vinho2),#68272b);color:#fff;padding:2rem 1rem}.wrap,main{max-width:1100px;margin:auto}.back{display:inline-block;color:#fff;text-decoration:none;border:1px solid #ffffff88;border-radius:.5rem;padding:.55rem .8rem;margin-bottom:1.2rem}h1{font:700 clamp(2.7rem,9vw,5.8rem)/.95 Georgia,serif;margin:.2rem 0}.stats{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}.stat{background:#ffffff15;border:1px solid #ffffff33;border-radius:.6rem;padding:.65rem .9rem}main{padding:1.5rem 1rem 4rem}.notice{background:#fff;border-left:5px solid var(--ouro);padding:1rem;margin-bottom:1.2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}.card{background:#fff;border:1px solid #e7ddcd;border-radius:.8rem;padding:1.1rem;box-shadow:0 8px 24px #0001}.card h2{font:700 1.35rem Georgia,serif}.badge{display:inline-block;background:#e5e3ef;color:#3e3861;padding:.2rem .55rem;border-radius:99px;font-weight:800}.actions{display:flex;gap:.55rem;flex-wrap:wrap}.btn{border:0;border-radius:.5rem;padding:.72rem 1rem;background:var(--ouro);color:#fff;text-decoration:none;font-weight:800;cursor:pointer}.btn.dark{background:var(--vinho)}dialog{width:min(96vw,1000px);height:88vh;border:0;border-radius:.7rem;padding:0}dialog::backdrop{background:#000b}.dh{display:flex;justify-content:space-between;align-items:center;padding:.8rem;background:#2b1b19;color:#fff}.tabs{display:flex;gap:.45rem;padding:.55rem .75rem;background:#efe7d8}.tab,.copy{border:0;border-radius:.45rem;padding:.55rem .8rem;font-weight:800;cursor:pointer}.copy{margin-left:auto}.pane{height:calc(100% - 111px);overflow:auto;background:#1b1b1b}.hidden{display:none!important}iframe{width:100%;height:100%;border:0}.ocr{min-height:100%;padding:1.1rem;background:#faf7ef}.ocr-page{max-width:850px;margin:0 auto 1rem;background:#fff;padding:1rem;border-radius:.5rem}.ocr-page div{white-space:pre-wrap}</style></head><body><header class="top"><div class="wrap"><a class="back" href="index.html">← Voltar à pesquisa</a><div>ACERVO DIGITAL JST</div><h1>__YEAR__</h1><p>Edições separadas pela data impressa no jornal e mantidas pesquisáveis por OCR, sem alteração visual das páginas.</p><div class="stats"><div class="stat"><strong>__ISSUES__</strong> edições encontradas</div><div class="stat"><strong>__PAGES__</strong> páginas indexadas</div><a class="back" style="margin:0" href="https://drive.google.com/file/d/__SOURCE__/view" target="_blank">PDF anual de origem</a></div></div></header><main><div class="notice"><strong>Nota:</strong> são listadas somente as edições presentes no PDF anual. Lacunas de datas não são preenchidas artificialmente.</div><div class="grid">__CARDS__</div></main><dialog id="dlg"><div class="dh"><strong id="ttl">Leitor</strong><button id="close">Fechar</button></div><div class="tabs"><button id="tabPdf" class="tab">Jornal</button><button id="tabOcr" class="tab">Texto OCR</button><button id="copy" class="copy hidden">Copiar texto</button></div><div id="pdfPane" class="pane"><iframe id="frame"></iframe></div><div id="ocrPane" class="pane hidden"><div id="ocr" class="ocr"></div></div></dialog><script>let pages=[];const $=id=>document.getElementById(id),dlg=$("dlg"),frame=$("frame"),ttl=$("ttl");const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));fetch("search-index-__YEAR__.json",{cache:"no-store"}).then(r=>r.json()).then(x=>pages=x).catch(()=>{});function render(id){const rel=pages.filter(p=>p.pdf===id).sort((a,b)=>a.localPage-b.localPage);$("ocr").innerHTML=rel.map(p=>`<article class="ocr-page"><h3>${esc(p.date)} · página ${p.localPage}</h3><div>${esc(p.text||"")}</div></article>`).join("")}function tab(o){$("pdfPane").classList.toggle("hidden",o);$("ocrPane").classList.toggle("hidden",!o);$("copy").classList.toggle("hidden",!o)}document.addEventListener("click",e=>{const b=e.target.closest(".read");if(!b)return;ttl.textContent=b.dataset.title;frame.src=`https://drive.google.com/file/d/${b.dataset.id}/preview`;render(b.dataset.id);tab(false);dlg.showModal()});$("close").onclick=()=>{frame.src="about:blank";dlg.close()};$("tabPdf").onclick=()=>tab(false);$("tabOcr").onclick=()=>tab(true);$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("ocr").innerText)}catch(e){}};</script></body></html>'''
+              return template.replace('__YEAR__',str(year)).replace('__ISSUES__',str(len(rows))).replace('__PAGES__',str(total_pages)).replace('__SOURCE__',source_id).replace('__CARDS__',cards_html)
+          stats={}
+          for year,rows in entries.items():
+              source_path,source_id=sources[year]; doc=fitz.open(source_path); expected=max(r[2] for r in rows)
+              if len(doc)!=expected: raise SystemExit(f'{year}: esperado {expected} páginas; encontrado {len(doc)}')
+              out=[]; covered=[]
+              for iso,start,end,pdfid in rows:
+                  for g in range(start,end+1):
+                      text=clean(doc[g-1].get_text('text'))
+                      out.append({'year':year,'date':dlabel(iso),'iso':iso,'page':g-start+1,'globalPage':g,'localPage':g-start+1,'sourceStart':start,'pdf':pdfid,'title':f'JST {year} — {dlabel(iso)}','text':text}); covered.append(g)
+              if covered!=list(range(1,len(doc)+1)): raise SystemExit(f'{year}: cobertura de páginas inválida')
+              if any(not r['text'] for r in out): raise SystemExit(f'{year}: página sem texto OCR')
+              Path(f'search-index-{year}.json').write_text(json.dumps(out,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+              Path(f'ano-{year}.html').write_text(year_html(year,rows,source_id,len(out)),encoding='utf-8')
+              stats[str(year)]={'edicoes':len(rows),'paginas':len(out),'paginas_com_texto_ocr':sum(bool(r['text']) for r in out)}
+              print(year,stats[str(year)])
+          Path('documentacao/INTEGRACAO_1929_1930.json').write_text(json.dumps(stats,ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+
+      - name: Atualizar pesquisa geral
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          replacements=[
+            ('com busca no texto reconhecido por OCR entre 1922 e 1928.','com busca no texto reconhecido por OCR entre 1922 e 1930.'),
+            ('<title>Acervo Digital JST — Pesquisa 1922–1928</title>','<title>Acervo Digital JST — Pesquisa 1922–1930</title>'),
+            ('<div><strong>7</strong>anos em PDF</div>','<div><strong>9</strong>anos em PDF</div>'),
+            ('<div><strong>1922–1928</strong>período disponível</div>','<div><strong>1922–1930</strong>período disponível</div>'),
+            ('<option>1927</option><option>1928</option>','<option>1927</option><option>1928</option><option>1929</option><option>1930</option>'),
+            ("{year:1928,label:'Ano completo em três partes PDF',files:3,folder:'1yNHV6vMW9c14rmuBa1xD1pKK9UnzGBdW'}];","{year:1928,label:'Ano completo em três partes PDF',files:3,folder:'1yNHV6vMW9c14rmuBa1xD1pKK9UnzGBdW'},\n{year:1929,label:'48 edições separadas por data',files:48,folder:'1BkPYOOx5f0HUnntMhdc9edSxdbeFEdoj'},\n{year:1930,label:'32 edições separadas por data',files:32,folder:'1ZqEuO-Gckq-694HzA3VpBBbEa40nqPO-'}];"),
+            ("const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json'];","const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json','search-index-1929.json','search-index-1930.json'];"),
+            ('Entram na busca os materiais disponíveis em PDF de 1922 a 1928. O ano de 1927 agora está completo, e 1928 foi incorporado integralmente em três partes. Os anos posteriores serão acrescentados conforme forem convertidos para PDF e indexados.','Entram na busca os materiais disponíveis em PDF de 1922 a 1930. As edições de 1929 e 1930 foram separadas pelas datas impressas nos jornais e incorporadas com OCR pesquisável. Lacunas de publicação presentes nos arquivos-fonte são preservadas, sem criação de edições inexistentes.')]
+          for old,new in replacements:
+              if old not in s: raise SystemExit('Trecho esperado não encontrado: '+old[:80])
+              s=s.replace(old,new,1)
+          old="const sub=is1922?esc(p.date||p.iso||''):`PDF iniciado na página ${p.sourceStart||'?'} · página ${p.localPage||'?'} do arquivo`;"
+          new="const sub=is1922?esc(p.date||p.iso||''):(p.date?`${esc(p.date)} · página ${p.localPage||p.page||'?'} da edição · página ${p.globalPage||p.page||'?'} do volume`:`PDF iniciado na página ${p.sourceStart||'?'} · página ${p.localPage||'?'} do arquivo`);"
+          if old not in s: raise SystemExit('Metadados de resultado não encontrados')
+          s=s.replace(old,new,1)
+          old2="if(y===1922&&p.n)return `Edição nº ${p.n} · página ${p.page}`;\n  return `${y} · página ${p.globalPage||p.page||'?'}`;"
+          new2="if(y===1922&&p.n)return `Edição nº ${p.n} · página ${p.page}`;\n  if(p.date)return `${y} · ${p.date} · página ${p.localPage||p.page||'?'}`;\n  return `${y} · página ${p.globalPage||p.page||'?'}`;"
+          if old2 not in s: raise SystemExit('Rótulo do leitor não encontrado')
+          s=s.replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Publicar atualização
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html search-index-1929.json search-index-1930.json ano-1929.html ano-1930.html documentacao/INTEGRACAO_1929_1930.json
+          git commit -m 'Organiza e integra 1929 e 1930 ao acervo'
+          git push origin main
