@@ -1,4 +1,4 @@
-name: Gerar índice de busca OCR
+name: Gerar índice OCR de todos os PDFs
 
 on:
   workflow_dispatch:
@@ -6,95 +6,228 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/build-search-index.yml"
+      - "fontes-pdf.json"
 
 permissions:
   contents: write
 
+concurrency:
+  group: ocr-todos-os-anos
+  cancel-in-progress: false
+
 jobs:
-  build-index:
+  ocr:
+    name: OCR ${{ matrix.year }}
     runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        year: [1923, 1924, 1925, 1926, 1927]
+
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v4
 
-      - name: Instalar ferramentas
+      - name: Instalar OCR e leitor de PDF
         run: |
           sudo apt-get update
-          sudo apt-get install -y poppler-utils
+          sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-por
           python -m pip install --upgrade pip gdown
 
-      - name: Baixar PDFs e gerar índice por página
+      - name: Reconhecer páginas do ano
+        env:
+          OCR_YEAR: ${{ matrix.year }}
         run: |
           python <<'PY'
           from pathlib import Path
-          import subprocess, json, re
+          import json, os, re, subprocess, sys
           import gdown
 
-          editions = [
-              (1, '1 de julho de 1922', '1922-07-01', '1KQhCPGJ59GdnKIiHAEr-tIKPF63zGq8M', '1ixGP5sRnZpFLh4AgTCf5Swwo2piohDs2'),
-              (2, '15 de julho de 1922', '1922-07-15', '1SoqgO-2A_S0VJRPk7BGdUDvawzcKjyd9', '1p8HBGX0NDx_K_qzsPDjXABDoBG2REq6r'),
-              (3, '29 de julho de 1922', '1922-07-29', '13sfm81t2_FXTBeoY94QBXxZlp2xMGkIF', '17oz902ixq3Iei9j7TtNfqnCho-AAXnJ5'),
-              (4, '12 de agosto de 1922', '1922-08-12', '1NeNgAlzg-zdWLK-WI2Im7TSfURcbRzVw', '1AnlQM-JYHd2fu1Lc8Hh3PZ8FmxyzSMJa'),
-              (5, '26 de agosto de 1922', '1922-08-26', '1q1nM3YYfxPX1hdzcr_pcUeXs6ZPtAmA-', '1pejqUlbOf69wdsgtiVYhbLk9SJQjCkIH'),
-              (6, '9 de setembro de 1922', '1922-09-09', '1kcZTXs0W-hMoN3BNprRHqojzppgmShSh', '1vFUcTdSz0H292G93RwuPI1fj2VIZbFnn'),
-              (7, '23 de setembro de 1922', '1922-09-23', '1Blusk7z08r29VYsQXy8Z7VDwCEiy3mJZ', '1j7uKJa81F47PDhHIrCJ5BJyct2dLZzma'),
-              (8, '7 de outubro de 1922', '1922-10-07', '1t4rCdgCo7co96G4kDf7lwrIhS5xpiUBl', '1YUzFFKC6aUV7XGmwD1sae79pPsiW7HpR'),
-              (9, '21 de outubro de 1922', '1922-10-21', '1Zx70vcA1dZqYqRGlD_Rm74sFdw_hZ_eN', '1aHH0zoGnhFwUqhsZjhiyCCs3gct0h7xk'),
-              (10, '4 de novembro de 1922', '1922-11-04', '16bfo0fwlTOxvzSumthNFpVQE_fng7leF', '13aPOss5oEo8JdAIzHvajWrddpYJW0EdM'),
-              (11, '18 de novembro de 1922', '1922-11-18', '1i47BRnE0fKZTvKd3gwUOkv1SWxUaI9v-', '1CwHe3a3WI5QFlNNysO9EmgKw7UzZ1rke'),
-              (12, '2 de dezembro de 1922', '1922-12-02', '13xmUsCBztM_bkNV-9BXrs0Y4Lvr1wDPj', '1MkiWU4YEVJE7aCHZLQC7GnXTM6Xl9jGG'),
-              (13, '16 de dezembro de 1922', '1922-12-16', '1trLmoJU72tWfXLTUpfNLLoeXIGxKQzGb', '1lCSlZOGYdYoRlS3Qg5GsyDS7xpSX4CqN'),
-              (14, '30 de dezembro de 1922', '1922-12-30', '1wxMGFSlQ8tXEI1hcLId0_nl75QyCjEBA', '1v7Wewtowvb4QXl6G7FI1TDeGUlzT8XsJ'),
-          ]
-
-          work = Path('_ocr_downloads')
+          year = int(os.environ["OCR_YEAR"])
+          manifest = json.loads(Path("fontes-pdf.json").read_text(encoding="utf-8"))
+          group = next(item for item in manifest if int(item["year"]) == year)
+          work = Path("_ocr_work")
           work.mkdir(exist_ok=True)
-          index = []
+          entries = []
+          failures = []
 
-          for number, date_label, iso, pdf_id, original_id in editions:
-              pdf = work / f'JST_1922_n{number:02d}_{iso}_OCR.pdf'
-              print(f'Baixando edição {number}: {pdf_id}')
-              result = gdown.download(id=pdf_id, output=str(pdf), quiet=False)
-              if not result or not pdf.exists():
-                  raise RuntimeError(f'Falha ao baixar a edição {number}')
+          def clean(text):
+              text = text.replace("\u00ad", "").replace("\x0c", " ").replace("\x00", " ")
+              text = re.sub(r"\b\d{9,}(?:\.\d+)?\b", " ", text)
+              text = re.sub(r"[\t\r\n ]+", " ", text)
+              return text.strip()
 
-              for page in range(1, 5):
-                  proc = subprocess.run(
-                      ['pdftotext', '-enc', 'UTF-8', '-f', str(page), '-l', str(page), '-nopgbrk', str(pdf), '-'],
+          for source in group["sources"]:
+              pdf = work / "source.pdf"
+              image = work / "page.png"
+              for path in (pdf, image):
+                  path.unlink(missing_ok=True)
+
+              print(f"Baixando {year}, parte iniciada na página {source['start']}: {source['id']}")
+              try:
+                  result = gdown.download(id=source["id"], output=str(pdf), quiet=False)
+                  if not result or not pdf.exists():
+                      raise RuntimeError("arquivo não foi baixado")
+
+                  info = subprocess.run(
+                      ["pdfinfo", str(pdf)],
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE,
+                      text=True,
                       check=True,
+                      timeout=120,
                   )
-                  text = proc.stdout.decode('utf-8', errors='replace')
-                  text = text.replace('\u00ad', '').replace('\x0c', ' ')
-                  text = re.sub(r'\d{7,}(?:\.\d+)?(?:-1)?', ' ', text)
-                  text = re.sub(r'[\t\r\n ]+', ' ', text).strip()
-                  text = re.sub(r'([^\wÀ-ÿ])\1{5,}', r'\1\1', text)
-                  index.append({
-                      'n': number,
-                      'date': date_label,
-                      'iso': iso,
-                      'page': page,
-                      'pdf': pdf_id,
-                      'original': original_id,
-                      'text': text,
-                  })
+                  match = re.search(r"^Pages:\s+(\d+)", info.stdout, re.MULTILINE)
+                  if not match:
+                      raise RuntimeError("quantidade de páginas não identificada")
+                  page_count = int(match.group(1))
+                  print(f"{source['title']}: {page_count} páginas")
 
-          Path('search-index.json').write_text(
-              json.dumps(index, ensure_ascii=False, separators=(',', ':')),
-              encoding='utf-8',
+                  for local_page in range(1, page_count + 1):
+                      image.unlink(missing_ok=True)
+                      try:
+                          subprocess.run(
+                              [
+                                  "pdftoppm", "-f", str(local_page), "-l", str(local_page),
+                                  "-r", "160", "-gray", "-singlefile", "-png",
+                                  str(pdf), str(work / "page")
+                              ],
+                              stdout=subprocess.DEVNULL,
+                              stderr=subprocess.PIPE,
+                              check=True,
+                              timeout=180,
+                          )
+                          ocr = subprocess.run(
+                              [
+                                  "tesseract", str(image), "stdout", "-l", "por",
+                                  "--psm", "3", "--dpi", "160",
+                                  "-c", "preserve_interword_spaces=1"
+                              ],
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              check=False,
+                              timeout=180,
+                          )
+                          text = clean(ocr.stdout.decode("utf-8", errors="replace"))
+                      except Exception as exc:
+                          failures.append(f"{year}:{source['start']}:{local_page}: {exc}")
+                          text = ""
+
+                      entries.append({
+                          "year": year,
+                          "globalPage": int(source["start"]) + local_page - 1,
+                          "sourceStart": int(source["start"]),
+                          "localPage": local_page,
+                          "pdf": source["id"],
+                          "title": source["title"],
+                          "text": text,
+                      })
+                      image.unlink(missing_ok=True)
+                      print(f"{year}: página {int(source['start']) + local_page - 1} concluída")
+
+              except Exception as exc:
+                  failures.append(f"{year}:{source['start']}: {exc}")
+                  print(f"ERRO na parte {source['title']}: {exc}", file=sys.stderr)
+              finally:
+                  pdf.unlink(missing_ok=True)
+                  image.unlink(missing_ok=True)
+
+          output = Path(f"ocr-{year}.json")
+          output.write_text(
+              json.dumps(entries, ensure_ascii=False, separators=(",", ":")),
+              encoding="utf-8",
           )
-          print(f'Índice concluído: {len(index)} páginas.')
+          Path(f"ocr-{year}-falhas.txt").write_text(
+              "\n".join(failures), encoding="utf-8"
+          )
+          print(f"Ano {year}: {len(entries)} páginas registradas; {len(failures)} falhas.")
           PY
 
-      - name: Publicar índice no repositório
+      - name: Guardar resultado do ano
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-${{ matrix.year }}
+          path: |
+            ocr-${{ matrix.year }}.json
+            ocr-${{ matrix.year }}-falhas.txt
+          retention-days: 1
+
+  publicar:
+    name: Publicar índice consolidado
+    needs: ocr
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Baixar repositório atualizado
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Baixar resultados dos anos
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ocr-*
+          path: ocr-results
+          merge-multiple: true
+
+      - name: Consolidar 1922 a 1927
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import json, glob
+          from collections import Counter
+
+          pages = []
+          base = Path("search-index.json")
+          if base.exists():
+              for item in json.loads(base.read_text(encoding="utf-8")):
+                  item["year"] = 1922
+                  item["globalPage"] = item.get("page")
+                  item["localPage"] = item.get("page")
+                  item["sourceStart"] = 1
+                  item["title"] = f"JST 1922 — edição nº {item.get('n', '')}"
+                  pages.append(item)
+
+          for filename in sorted(glob.glob("ocr-results/ocr-*.json")):
+              pages.extend(json.loads(Path(filename).read_text(encoding="utf-8")))
+
+          pages.sort(key=lambda p: (
+              int(p.get("year", 0)),
+              str(p.get("iso", "")),
+              int(p.get("globalPage") or p.get("page") or 0),
+              int(p.get("n") or 0),
+          ))
+
+          Path("search-index-all.json").write_text(
+              json.dumps(pages, ensure_ascii=False, separators=(",", ":")),
+              encoding="utf-8",
+          )
+          counts = Counter(int(p.get("year", 0)) for p in pages)
+          summary = {
+              "totalPages": len(pages),
+              "pagesByYear": dict(sorted(counts.items())),
+              "years": sorted(counts),
+          }
+          Path("search-summary.json").write_text(
+              json.dumps(summary, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+          print(summary)
+          PY
+
+      - name: Publicar índice
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add search-index.json
+          git pull --rebase origin main
+          git add search-index-all.json search-summary.json
           if git diff --cached --quiet; then
-            echo "O índice não mudou."
+            echo "O índice consolidado não mudou."
           else
-            git commit -m "Gera índice textual das 56 páginas"
+            git commit -m "Atualiza busca OCR de 1922 a 1927"
             git push
           fi
