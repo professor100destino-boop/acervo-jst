@@ -67,6 +67,7 @@ jobs:
                   )
                   text = proc.stdout.decode('utf-8', errors='replace')
                   text = text.replace('\u00ad', '').replace('\x0c', ' ')
+                  text = re.sub(r'\d{7,}(?:\.\d+)?(?:-1)?', ' ', text)
                   text = re.sub(r'[\t\r\n ]+', ' ', text).strip()
                   text = re.sub(r'([^\wÀ-ÿ])\1{5,}', r'\1\1', text)
                   index.append({
