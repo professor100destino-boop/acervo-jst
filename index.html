@@ -26,22 +26,27 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
 .reader-tabs{display:flex;gap:.45rem;align-items:center;padding:.55rem .75rem;background:#efe7d8;border-bottom:1px solid #d8c9b2}.reader-tab,.reader-copy{border:0;border-radius:.45rem;padding:.55rem .8rem;font-weight:800;cursor:pointer;background:#fff;color:var(--vinho)}.reader-tab.active{background:var(--ouro);color:#fff}.reader-copy{margin-left:auto;background:var(--vinho);color:#fff}.reader-pane{height:calc(100% - 111px);overflow:auto;background:#1b1b1b}.reader-pane.hidden{display:none!important}#frame{width:100%;height:100%;border:0}.ocr-text{min-height:100%;padding:1.2rem;background:#faf7ef;color:#272018;line-height:1.65;font:17px/1.65 Georgia,serif;white-space:normal;user-select:text;-webkit-user-select:text;cursor:text}.ocr-page{max-width:850px;margin:0 auto 1rem;background:#fff;border:1px solid #ded3c0;border-radius:.55rem;padding:1rem 1.1rem}.ocr-page h3{margin:.1rem 0 .7rem;color:var(--vinho);font:700 1.15rem Georgia,serif}.ocr-page div{white-space:pre-wrap;user-select:text;-webkit-user-select:text}.ocr-empty{max-width:760px;margin:2rem auto;padding:1.2rem;background:#fff;border-radius:.6rem;color:#554a3c}
 
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:2rem 1rem}.paper{display:none}.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}.hero-search{grid-template-columns:1fr}.hero-search .btn{width:100%}.search-row{grid-template-columns:1fr}.search-row input,.search-row select{width:100%}}
+
+/* Banner histórico JST */
+.hero.hero-image{display:block!important;padding:0!important;background:#efe1bd!important;color:inherit!important;min-height:0!important}
+.hero-banner{display:block;width:100%;height:auto;max-height:none;object-fit:contain;background:#efe1bd}
+.banner-search{background:#efe6d3;padding:1rem;border-bottom:1px solid #d2c3a6;box-shadow:0 5px 18px #00000012}
+.banner-search .hero-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.7rem;max-width:1080px;margin:0 auto}
+.banner-search .hero-search input{width:100%;min-width:0;padding:.9rem 1rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff;color:var(--tinta);box-shadow:0 4px 12px #00000010}
+@media(max-width:760px){.hero.hero-image{padding:0!important}.hero-banner{width:100%;height:auto}.banner-search .hero-search{grid-template-columns:1fr}.banner-search .hero-search .btn{width:100%}}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div>
-    <div class="k">Acervo histórico digital — Goiás</div>
-    <h1>Jornal Santuário de Trindade</h1>
-    <p><strong>Pesquisa textual nos anos disponíveis em PDF.</strong> O sistema consulta o texto reconhecido por OCR e indica o ano, a edição ou volume e a página da ocorrência.</p>
-    <form class="hero-search" id="heroSearchForm">
-      <label class="sr-only" for="heroSearch">Pesquisar no acervo</label>
-      <input id="heroSearch" type="search" autocomplete="off" placeholder="Digite uma palavra, nome, cidade ou expressão">
-      <button class="btn" type="submit">Pesquisar no acervo</button>
-    </form>
-  </div>
-  <div class="paper"><small>ACERVO DIGITAL · 1922–1927</small><b>Santuário<br>da Trindade</b><small>Busca histórica no texto integral</small><div class="lines"></div></div>
+<header class="hero hero-image">
+  <img class="hero-banner" src="assets/banner_acervo_jst.png" alt="Santuário da Trindade — Órgam do Santuário da Trindade — Acervo Digital do Jornal Santuário da Trindade (1920–1970)">
 </header>
+<section class="banner-search" aria-label="Pesquisa no acervo">
+  <form class="hero-search" id="heroSearchForm">
+    <label class="sr-only" for="heroSearch">Pesquisar no acervo</label>
+    <input id="heroSearch" type="search" autocomplete="off" placeholder="Digite uma palavra, nome, cidade ou expressão">
+    <button class="btn" type="submit">Pesquisar no acervo</button>
+  </form>
+</section>
 <section class="stats">
   <div><strong>6</strong>anos em PDF</div>
   <div><strong id="pageStat">—</strong>páginas indexadas</div>
