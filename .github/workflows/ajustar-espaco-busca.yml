@@ -1,0 +1,37 @@
+name: Ajustar espaço da barra de pesquisa
+
+on:
+  push:
+    paths:
+      - '.github/workflows/ajustar-espaco-busca.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  ajustar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Separar barra de pesquisa dos indicadores
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('margin:-1.5rem auto 2rem;position:relative', 'margin:1rem auto 2rem;position:relative', 1)
+          s = s.replace('.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}', '.stats{grid-template-columns:repeat(2,1fr);margin:.75rem 0 0;border-radius:0}', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Publicar ajuste
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Ajusta espaço entre busca e indicadores"
+          git push origin main
