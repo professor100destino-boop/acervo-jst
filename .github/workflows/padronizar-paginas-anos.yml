@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/padronizar_paginas_anos_v4.py'
+      - 'scripts/ajustar_visual_igual_1922.py'
       - '.github/workflows/padronizar-paginas-anos.yml'
 
 permissions:
@@ -20,6 +21,9 @@ jobs:
 
       - name: Gerar paginas anuais
         run: python scripts/padronizar_paginas_anos_v4.py
+
+      - name: Ajustar visual igual a 1922
+        run: python scripts/ajustar_visual_igual_1922.py
 
       - name: Publicar paginas padronizadas
         run: |
