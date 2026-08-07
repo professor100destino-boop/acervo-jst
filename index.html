@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade, com busca no texto reconhecido por OCR entre 1922 e 1930.">
-<title>Acervo Digital JST — Pesquisa 1922–1930</title>
+<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade, com busca no texto reconhecido por OCR entre 1922 e 1931.">
+<title>Acervo Digital JST — Pesquisa 1922–1931</title>
 <style>
 :root{--vinho:#591f22;--vinho2:#2d1719;--ouro:#9b7838;--papel:#f3ead6;--tinta:#2c241b;--fundo:#eee7da;--verde:#315d43;--cinza:#6d6254}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--vinho)}button,input,select{font:inherit}
@@ -34,11 +34,12 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
 .banner-search .hero-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.7rem;max-width:1080px;margin:0 auto}
 .banner-search .hero-search input{width:100%;min-width:0;padding:.9rem 1rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff;color:var(--tinta);box-shadow:0 4px 12px #00000010}
 @media(max-width:760px){.hero.hero-image{padding:0!important}.hero-banner{width:100%;height:auto}.banner-search .hero-search{grid-template-columns:1fr}.banner-search .hero-search .btn{width:100%}}
+.banner-wrap{position:relative;line-height:0}.banner-period-fix{position:absolute;left:0;right:0;bottom:0;height:20%;display:flex;align-items:center;justify-content:center;text-align:center;padding:.5rem 1rem;background:linear-gradient(180deg,#ead9b5 0%,#ead9b5 72%,#e7d3aa 100%);color:#18130d;font:700 clamp(.75rem,2vw,1.55rem)/1.2 Georgia,serif;letter-spacing:.01em;border-top:1px solid #8c7048}.banner-period-fix span{line-height:1.2}@media(max-width:760px){.banner-period-fix{font-size:clamp(.62rem,2.5vw,1rem);height:21%}}
 </style>
 </head>
 <body>
 <header class="hero hero-image">
-  <img class="hero-banner" src="assets/banner_acervo_jst.png" alt="Santuário da Trindade — Órgam do Santuário da Trindade — Acervo Digital do Jornal Santuário da Trindade (1920–1970)">
+  <div class="banner-wrap"><img class="hero-banner" src="assets/banner_acervo_jst.png" alt="Santuário da Trindade — Órgam do Santuário da Trindade"><div class="banner-period-fix"><span>ACERVO DIGITAL DO JORNAL SANTUÁRIO DA TRINDADE (1922–1931)</span></div></div>
 </header>
 <section class="banner-search" aria-label="Pesquisa no acervo">
   <form class="hero-search" id="heroSearchForm">
@@ -48,10 +49,10 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
   </form>
 </section>
 <section class="stats">
-  <div><strong>9</strong>anos em PDF</div>
+  <div><strong>10</strong>anos em PDF</div>
   <div><strong id="pageStat">—</strong>páginas indexadas</div>
   <div><strong>OCR</strong>busca por palavra</div>
-  <div><strong>1922–1930</strong>período disponível</div>
+  <div><strong>1922–1931</strong>período disponível</div>
 </section>
 <main id="consulta">
   <div class="k">Consulta textual</div>
@@ -61,7 +62,7 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
     <div class="search-row">
       <input id="q" type="search" autocomplete="off" placeholder="Ex.: protestante, romaria, Trindade, padre, Goyaz">
       <select id="year" aria-label="Filtrar por ano">
-        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option><option>1928</option><option>1929</option><option>1930</option>
+        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option><option>1928</option><option>1929</option><option>1930</option><option>1931</option>
       </select>
       <select id="sort" aria-label="Ordenar"><option value="1">Mais antigas primeiro</option><option value="-1">Mais recentes primeiro</option></select>
     </div>
@@ -83,7 +84,7 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
   </section>
 
   <aside class="notice"><strong>Limites do OCR:</strong> a grafia antiga, manchas, letras apagadas, colunas e páginas fotografadas podem causar erros ou palavras não reconhecidas. Para citação acadêmica, confira sempre a imagem original indicada no resultado.</aside>
-  <section class="about"><h2>Cobertura atual</h2><p>Entram na busca os materiais disponíveis em PDF de 1922 a 1930. As edições de 1929 e 1930 foram separadas pelas datas impressas nos jornais e incorporadas com OCR pesquisável. Lacunas de publicação presentes nos arquivos-fonte são preservadas, sem criação de edições inexistentes.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização de 1922</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
+  <section class="about"><h2>Cobertura atual</h2><p>O Jornal Santuário da Trindade circulou em Goiás entre 1922 e 1931. Esta coleção digital disponibiliza o período 1922-1931, organizado por ano e edição, com OCR pesquisável. O último número localizado é o n. 402, de 1 de junho de 1931, que anuncia o encerramento do periódico. Lacunas presentes nos arquivos-fonte são preservadas, sem criação de edições inexistentes.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização de 1922</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
 </main>
 <footer><strong>Acervo Digital JST — Jornal Santuário de Trindade</strong><br>Organização, OCR e acesso para pesquisa histórica</footer>
 <dialog id="dlg">
@@ -117,7 +118,8 @@ const years=[
 {year:1927,label:'Ano organizado em edições separadas',files:27,folder:'1yyAZHT_y_VqjNWxMoRh5Qr5J0VZJrv3m'},
 {year:1928,label:'Ano organizado em edições separadas',files:48,folder:'1yNHV6vMW9c14rmuBa1xD1pKK9UnzGBdW'},
 {year:1929,label:'Ano organizado em edições separadas',files:48,folder:'1BkPYOOx5f0HUnntMhdc9edSxdbeFEdoj'},
-{year:1930,label:'Ano organizado em edições separadas',files:32,folder:'1ZqEuO-Gckq-694HzA3VpBBbEa40nqPO-'}];
+{year:1930,label:'Ano organizado em edições separadas',files:32,folder:'1ZqEuO-Gckq-694HzA3VpBBbEa40nqPO-'},
+{year:1931,label:'Ano final - edições separadas',files:11,folder:'12zaAcEEHRXThKXNJdD3l0z7FrvqT-oF_'}];
 let pages=[];
 const $=id=>document.getElementById(id),q=$('q'),year=$('year'),sort=$('sort'),results=$('searchResults'),overview=$('overview'),edicoes=$('edicoes1922'),dot=$('dot'),statusText=$('statusText'),dlg=$('dlg'),frame=$('frame'),ttl=$('ttl');
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -186,7 +188,7 @@ async function loadIndex(){
     if(!r.ok)throw new Error('índice indisponível');
     let base=await r.json();
     base=base.map(p=>({...p,year:Number(p.year||1922)}));
-    const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json','search-index-1929.json','search-index-1930.json'];
+    const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json','search-index-1929.json','search-index-1930.json','search-index-1931.json'];
     const extras=[];
     for(const f of extraFiles){
       const x=await fetch(`${f}?v=${Date.now()}`,{cache:'no-store'});

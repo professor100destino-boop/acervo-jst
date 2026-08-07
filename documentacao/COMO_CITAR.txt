@@ -1,6 +1,8 @@
 MODELO SUGERIDO DE CITAÇÃO
 
-JORNAL SANTUÁRIO DE TRINDADE. Campinas, GO, ano I, n. [número], [data], p. [página]. Acervo Digital JST.
+JORNAL SANTUÁRIO DE TRINDADE. Campinas, GO, ano [ano do jornal], n. [número impresso], [data], p. [página]. Acervo Digital JST - coleção 1922-1931. Disponível em: https://professor100destino-boop.github.io/acervo-jst/. Acesso em: [data de acesso].
 
 Exemplo:
-JORNAL SANTUÁRIO DE TRINDADE. Campinas, GO, ano I, n. 1, 1 jul. 1922, p. 1. Acervo Digital JST.
+JORNAL SANTUÁRIO DE TRINDADE. Campinas, GO, ano I, n. 1, 1 jul. 1922, p. 1. Acervo Digital JST - coleção 1922-1931. Disponível em: https://professor100destino-boop.github.io/acervo-jst/. Acesso em: [data de acesso].
+
+Nota histórica: o periódico circulou em Goiás entre 1922 e 1931. O n. 402, de 1 jun. 1931, anuncia o encerramento do jornal.
