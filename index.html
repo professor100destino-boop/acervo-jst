@@ -62,7 +62,7 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
     <div class="search-row">
       <input id="q" type="search" autocomplete="off" placeholder="Ex.: protestante, romaria, Trindade, padre, Goyaz">
       <select id="year" aria-label="Filtrar por ano">
-        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option><option>1928</option><option>1929</option><option>1930</option><option>1931</option>
+        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option><option>1928</option><option>1929</option><option>1930</option><option>1931</option><option>1931</option>
       </select>
       <select id="sort" aria-label="Ordenar"><option value="1">Mais antigas primeiro</option><option value="-1">Mais recentes primeiro</option></select>
     </div>
@@ -188,7 +188,7 @@ async function loadIndex(){
     if(!r.ok)throw new Error('índice indisponível');
     let base=await r.json();
     base=base.map(p=>({...p,year:Number(p.year||1922)}));
-    const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json','search-index-1929.json','search-index-1930.json','search-index-1931.json'];
+    const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json','search-index-1929.json','search-index-1930.json','search-index-1931.json','search-index-1931.json'];
     const extras=[];
     for(const f of extraFiles){
       const x=await fetch(`${f}?v=${Date.now()}`,{cache:'no-store'});
