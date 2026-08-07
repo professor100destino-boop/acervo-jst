@@ -3,28 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade - edições de 1922.">
-<title>Acervo Digital JST - 1922</title>
+<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade, com busca no texto reconhecido por OCR entre 1922 e 1927.">
+<title>Acervo Digital JST — Pesquisa 1922–1927</title>
 <style>
-:root{--vinho:#591f22;--vinho2:#311719;--ouro:#9b7838;--papel:#f3ead6;--tinta:#2c241b;--fundo:#eee7da;--borda:#d5c7ad;--verde:#315d43}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--vinho)}button,input,select{font:inherit}.hero{background:linear-gradient(125deg,var(--vinho2),#68272b);color:#fff;padding:clamp(2rem,6vw,5rem);display:grid;grid-template-columns:1.4fr .8fr;gap:3rem;align-items:center}h1{font:700 clamp(2.5rem,7vw,5.5rem)/.92 Georgia,serif;margin:.4rem 0 1.2rem}h2{font:700 clamp(1.8rem,4vw,2.6rem)/1.1 Georgia,serif}.k{text-transform:uppercase;letter-spacing:.14em;font-weight:800;font-size:.75rem;color:#e0c78b}.actions,.card-actions,.result-actions{display:flex;gap:.65rem;flex-wrap:wrap}.btn{display:inline-block;border:0;border-radius:.55rem;padding:.72rem 1rem;background:var(--ouro);color:#fff;text-decoration:none;font-weight:800;cursor:pointer}.btn.alt{background:transparent;border:1px solid currentColor}.btn.dark{background:var(--vinho)}.paper{background:var(--papel);color:var(--tinta);padding:1.3rem;text-align:center;box-shadow:0 18px 45px #0007;transform:rotate(1deg)}.paper b{display:block;font:700 2.4rem/.9 Georgia,serif;border-block:3px double #5a462c;padding:.7rem;margin:.8rem 0}.lines{height:110px;background:repeating-linear-gradient(0deg,#60492b44 0 2px,transparent 2px 7px),repeating-linear-gradient(90deg,transparent 0 32%,#60492b44 32% 33%,transparent 33% 66%,#60492b44 66% 67%)}.stats{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;max-width:1050px;margin:-1.5rem auto 2rem;position:relative;border-radius:.8rem;box-shadow:0 10px 30px #0002}.stats div{padding:1.2rem;text-align:center}.stats strong{display:block;font:700 2rem Georgia,serif;color:var(--vinho)}main{max-width:1150px;margin:auto;padding:2rem 1rem 4rem}.search-panel{background:#fff;border-radius:1rem;padding:1.2rem;box-shadow:0 10px 28px #0001;border:1px solid #e8dfd0}.search-label{font-weight:800;display:block;margin-bottom:.45rem}.search-row{display:grid;grid-template-columns:1fr auto auto;gap:.65rem}.search-row input,.search-row select{padding:.9rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff}.search-row input{min-width:0}.search-help{margin:.65rem 0 0;color:#6d6254;font-size:.92rem}.status{display:flex;align-items:center;gap:.6rem;margin:1rem 0;color:#6d6254}.dot{width:.65rem;height:.65rem;border-radius:50%;background:var(--ouro)}.dot.ready{background:var(--verde)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}.card,.result{background:#fff;border-radius:.8rem;overflow:hidden;box-shadow:0 8px 24px #0001;border:1px solid #eee4d4}.cover{background:var(--papel);padding:1.2rem;text-align:center;min-height:210px;display:flex;flex-direction:column;justify-content:center}.cover b{font:700 1.8rem/.9 Georgia,serif;border-block:3px double #5a462c;padding:.6rem;margin:.7rem 0}.body{padding:1rem}.body h3{margin:.2rem 0}.meta{color:#6d6254;font-size:.9rem}.badge{display:inline-block;background:#e7d7a9;padding:.2rem .55rem;border-radius:99px;font-size:.75rem;font-weight:800;margin:.5rem 0}.badge.page{background:#dceadf;color:#244b34}.results{display:grid;gap:.85rem}.result{padding:1rem 1.1rem}.result h3{margin:.1rem 0 .25rem}.snippet{background:#faf6ee;border-left:4px solid var(--ouro);padding:.75rem;margin:.75rem 0;border-radius:.25rem;color:#42372c}.empty{background:#fff;padding:2rem;border-radius:.8rem;text-align:center;border:1px dashed #b8aa92}.notice,.about{margin-top:2rem;background:#fff;border-left:5px solid var(--ouro);padding:1.2rem;border-radius:.4rem}.hidden{display:none!important}footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width:min(96vw,1000px);height:88vh;border:0;border-radius:.7rem;padding:0}dialog::backdrop{background:#000b}.dh{display:flex;justify-content:space-between;align-items:center;padding:.8rem;background:#2b1b19;color:#fff}.dh button{border:0;border-radius:.4rem;padding:.45rem .7rem;cursor:pointer}iframe{width:100%;height:calc(100% - 54px);border:0}@media(max-width:760px){.hero{grid-template-columns:1fr;padding:2rem 1rem}.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}.paper{display:none}.search-row{grid-template-columns:1fr}.search-row input,.search-row select{width:100%}}
+:root{--vinho:#591f22;--vinho2:#2d1719;--ouro:#9b7838;--papel:#f3ead6;--tinta:#2c241b;--fundo:#eee7da;--verde:#315d43;--cinza:#6d6254}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--vinho)}button,input,select{font:inherit}
+.hero{background:linear-gradient(125deg,var(--vinho2),#68272b);color:#fff;padding:clamp(2rem,6vw,5rem);display:grid;grid-template-columns:1.45fr .75fr;gap:3rem;align-items:center}
+h1{font:700 clamp(2.5rem,7vw,5.5rem)/.92 Georgia,serif;margin:.4rem 0 1.2rem}h2{font:700 clamp(1.7rem,4vw,2.6rem)/1.1 Georgia,serif;margin-bottom:.7rem}
+.k{text-transform:uppercase;letter-spacing:.14em;font-weight:800;font-size:.75rem;color:#e0c78b}.actions,.result-actions,.card-actions{display:flex;gap:.65rem;flex-wrap:wrap}
+.btn{display:inline-block;border:0;border-radius:.55rem;padding:.72rem 1rem;background:var(--ouro);color:#fff;text-decoration:none;font-weight:800;cursor:pointer}.btn.alt{background:transparent;border:1px solid currentColor}.btn.dark{background:var(--vinho)}
+.paper{background:var(--papel);color:var(--tinta);padding:1.3rem;text-align:center;box-shadow:0 18px 45px #0007;transform:rotate(1deg)}.paper b{display:block;font:700 2.4rem/.9 Georgia,serif;border-block:3px double #5a462c;padding:.7rem;margin:.8rem 0}.lines{height:110px;background:repeating-linear-gradient(0deg,#60492b44 0 2px,transparent 2px 7px),repeating-linear-gradient(90deg,transparent 0 32%,#60492b44 32% 33%,transparent 33% 66%,#60492b44 66% 67%)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;max-width:1080px;margin:-1.5rem auto 2rem;position:relative;border-radius:.8rem;box-shadow:0 10px 30px #0002}.stats div{padding:1.15rem;text-align:center}.stats strong{display:block;font:700 1.9rem Georgia,serif;color:var(--vinho)}
+main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}.search-panel{background:#fff;border-radius:1rem;padding:1.2rem;box-shadow:0 10px 28px #0001;border:1px solid #e8dfd0}.search-label{font-weight:800;display:block;margin-bottom:.45rem}.search-row{display:grid;grid-template-columns:1fr auto auto;gap:.65rem}.search-row input,.search-row select{padding:.9rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff}.search-row input{min-width:0}.search-help,.meta{color:var(--cinza);font-size:.92rem}.search-help{margin:.65rem 0 0}
+.status{display:flex;align-items:center;gap:.6rem;margin:1rem 0;color:var(--cinza)}.dot{width:.7rem;height:.7rem;border-radius:50%;background:var(--ouro)}.dot.ready{background:var(--verde)}.dot.error{background:#a52a2a}
+.year-grid,.edition-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}.year-card,.edition-card,.result{background:#fff;border:1px solid #eee4d4;border-radius:.85rem;box-shadow:0 8px 24px #0001}.year-card{padding:1.1rem}.year-card h3{font:700 2rem Georgia,serif;margin:.1rem 0}.year-card strong{color:var(--vinho)}
+.results{display:grid;gap:.85rem}.result{padding:1rem 1.1rem}.result h3{margin:.1rem 0 .25rem}.snippet{background:#faf6ee;border-left:4px solid var(--ouro);padding:.75rem;margin:.75rem 0;border-radius:.25rem;color:#42372c}.badge{display:inline-block;background:#e7d7a9;padding:.2rem .55rem;border-radius:99px;font-size:.75rem;font-weight:800;margin:.35rem .25rem .35rem 0}.badge.page{background:#dceadf;color:#244b34}.badge.pdf{background:#e5e3ef;color:#3e3861}
+.edition-card{overflow:hidden}.cover{background:var(--papel);padding:1rem;text-align:center;min-height:175px;display:flex;flex-direction:column;justify-content:center}.cover b{font:700 1.55rem/.95 Georgia,serif;border-block:3px double #5a462c;padding:.55rem;margin:.6rem 0}.body{padding:1rem}.body h3{margin:.15rem 0}
+.notice,.about{margin-top:2rem;background:#fff;border-left:5px solid var(--ouro);padding:1.2rem;border-radius:.4rem}.hidden{display:none!important}.empty{background:#fff;padding:2rem;border-radius:.8rem;text-align:center;border:1px dashed #b8aa92}
+footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width:min(96vw,1000px);height:88vh;border:0;border-radius:.7rem;padding:0}dialog::backdrop{background:#000b}.dh{display:flex;justify-content:space-between;align-items:center;padding:.8rem;background:#2b1b19;color:#fff}.dh button{border:0;border-radius:.4rem;padding:.45rem .7rem;cursor:pointer}iframe{width:100%;height:calc(100% - 54px);border:0}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:2rem 1rem}.paper{display:none}.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}.search-row{grid-template-columns:1fr}.search-row input,.search-row select{width:100%}}
 </style>
 </head>
 <body>
 <header class="hero">
   <div>
-    <div class="k">Acervo histórico digital - Goiás</div>
+    <div class="k">Acervo histórico digital — Goiás</div>
     <h1>Jornal Santuário de Trindade</h1>
-    <p><strong>Ano de 1922 - projeto-piloto.</strong> Quatorze edições quinzenais com pesquisa no texto integral reconhecido por OCR.</p>
+    <p><strong>Pesquisa textual nos anos disponíveis em PDF.</strong> O sistema consulta o texto reconhecido por OCR e indica o ano, a edição ou volume e a página da ocorrência.</p>
     <div class="actions">
       <a class="btn" href="#consulta">Pesquisar no acervo</a>
-      <button class="btn alt" id="csv">Baixar catálogo CSV</button>
-      <button class="btn alt" id="json">Baixar índice JSON</button>
-      <a class="btn alt" href="https://drive.google.com/drive/folders/1gK_gfpTuONUmanKRRwafiFAAqttaVdo8" target="_blank" rel="noopener">Pasta no Drive</a>
+      <a class="btn alt" href="fontes-pdf.json" download>Catálogo das fontes PDF</a>
+      <a class="btn alt" href="search-index-all.json" download>Baixar índice OCR</a>
+      <a class="btn alt" href="https://drive.google.com/drive/folders/1L1NlYql-Mt9Lnbxw96eT0WWmhWqqMlNI" target="_blank" rel="noopener">Acervo completo no Drive</a>
     </div>
   </div>
-  <div class="paper"><small>ANNO I - NÚMERO 1</small><b>Santuário<br>da Trindade</b><small>Campinas, 1º de julho de 1922</small><div class="lines"></div></div>
+  <div class="paper"><small>ACERVO DIGITAL · 1922–1927</small><b>Santuário<br>da Trindade</b><small>Busca histórica no texto integral</small><div class="lines"></div></div>
 </header>
-<section class="stats"><div><strong>14</strong>edições</div><div><strong>56</strong>páginas</div><div><strong>OCR</strong>texto integral</div><div><strong>1922</strong>ano-piloto</div></section>
+<section class="stats">
+  <div><strong>6</strong>anos em PDF</div>
+  <div><strong id="pageStat">—</strong>páginas indexadas</div>
+  <div><strong>OCR</strong>busca por palavra</div>
+  <div><strong>1922–1927</strong>período disponível</div>
+</section>
 <main id="consulta">
   <div class="k">Consulta textual</div>
   <h2>Pesquisar no corpo dos jornais</h2>
@@ -32,25 +52,35 @@
     <label class="search-label" for="q">Digite uma palavra, nome, cidade ou expressão</label>
     <div class="search-row">
       <input id="q" type="search" autocomplete="off" placeholder="Ex.: protestante, romaria, Trindade, padre, Goyaz">
-      <select id="m" aria-label="Filtrar por mês"><option value="">Todos os meses</option><option value="07">Julho</option><option value="08">Agosto</option><option value="09">Setembro</option><option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option></select>
-      <select id="s" aria-label="Ordenar"><option value="1">Mais antigas primeiro</option><option value="-1">Mais recentes primeiro</option></select>
+      <select id="year" aria-label="Filtrar por ano">
+        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option>
+      </select>
+      <select id="sort" aria-label="Ordenar"><option value="1">Mais antigas primeiro</option><option value="-1">Mais recentes primeiro</option></select>
     </div>
-    <p class="search-help">A pesquisa ignora diferenças entre maiúsculas, minúsculas e acentos. Quando houver mais de uma palavra, todas precisam aparecer na mesma página.</p>
+    <p class="search-help">A pesquisa ignora diferenças entre maiúsculas, minúsculas e acentos. Com várias palavras, todas precisam aparecer na mesma página.</p>
   </section>
-  <div id="status" class="status"><span id="dot" class="dot"></span><span id="statusText">Carregando o índice das 56 páginas...</span></div>
+  <div class="status"><span id="dot" class="dot"></span><span id="statusText">Carregando o índice do acervo...</span></div>
   <section id="searchResults" class="results hidden" aria-live="polite"></section>
-  <section id="editionArea">
-    <h2>Edições de 1922</h2>
-    <p class="meta">Sem termo de pesquisa, o site mostra todas as edições. Os botões “Ler” e “Baixar” usam o PDF pesquisável; “Original” abre a cópia sem OCR.</p>
-    <section id="grid" class="grid"></section>
+
+  <section id="overview">
+    <h2>Anos disponíveis em PDF</h2>
+    <p class="meta">Os arquivos originais permanecem inalterados. O OCR é usado somente para localizar palavras e apresentar resultados de busca.</p>
+    <div id="yearGrid" class="year-grid"></div>
   </section>
-  <aside class="notice"><strong>Atenção sobre o OCR:</strong> a busca pesquisa o texto reconhecido automaticamente. A grafia antiga, manchas, letras apagadas e colunas podem causar palavras incorretas ou não reconhecidas. Confirme sempre o resultado na imagem da página.</aside>
-  <section class="about"><h2>Organização documental</h2><p>Os três PDFs-fonte foram examinados página por página. As edições foram identificadas pelo cabeçalho, número e data. Cinco fotografias repetidas foram registradas e retiradas apenas da sequência de acesso. Nenhum arquivo-fonte foi apagado ou substituído.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
+
+  <section id="edicoes1922">
+    <h2>Edições separadas de 1922</h2>
+    <p class="meta">Em 1922, cada edição também está disponível como PDF pesquisável individual, com acesso à cópia original.</p>
+    <div id="editionGrid" class="edition-grid"></div>
+  </section>
+
+  <aside class="notice"><strong>Limites do OCR:</strong> a grafia antiga, manchas, letras apagadas, colunas e páginas fotografadas podem causar erros ou palavras não reconhecidas. Para citação acadêmica, confira sempre a imagem original indicada no resultado.</aside>
+  <section class="about"><h2>Cobertura atual</h2><p>Entram na busca os materiais que já estavam em PDF: 1922, 1923, 1924, 1925, 1926 e a primeira parte de 1927. A documentação de junho de 1927 até 1931 está em JPG e ainda não integra este índice.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização de 1922</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
 </main>
-<footer><strong>Acervo Digital JST - Jornal Santuário de Trindade</strong><br>Projeto-piloto de organização, OCR e acesso - 1922</footer>
-<dialog id="dlg"><div class="dh"><strong id="ttl">Leitor</strong><button id="x">Fechar</button></div><iframe id="frame" title="Leitor do jornal"></iframe></dialog>
+<footer><strong>Acervo Digital JST — Jornal Santuário de Trindade</strong><br>Organização, OCR e acesso para pesquisa histórica</footer>
+<dialog id="dlg"><div class="dh"><strong id="ttl">Leitor</strong><button id="close">Fechar</button></div><iframe id="frame" title="Leitor do jornal"></iframe></dialog>
 <script>
-const editions=[
+const editions1922=[
 {n:1,d:'1 de julho de 1922',iso:'1922-07-01',p:'1KQhCPGJ59GdnKIiHAEr-tIKPF63zGq8M',o:'1ixGP5sRnZpFLh4AgTCf5Swwo2piohDs2'},
 {n:2,d:'15 de julho de 1922',iso:'1922-07-15',p:'1SoqgO-2A_S0VJRPk7BGdUDvawzcKjyd9',o:'1p8HBGX0NDx_K_qzsPDjXABDoBG2REq6r'},
 {n:3,d:'29 de julho de 1922',iso:'1922-07-29',p:'13sfm81t2_FXTBeoY94QBXxZlp2xMGkIF',o:'17oz902ixq3Iei9j7TtNfqnCho-AAXnJ5'},
@@ -65,26 +95,68 @@ const editions=[
 {n:12,d:'2 de dezembro de 1922',iso:'1922-12-02',p:'13xmUsCBztM_bkNV-9BXrs0Y4Lvr1wDPj',o:'1MkiWU4YEVJE7aCHZLQC7GnXTM6Xl9jGG'},
 {n:13,d:'16 de dezembro de 1922',iso:'1922-12-16',p:'1trLmoJU72tWfXLTUpfNLLoeXIGxKQzGb',o:'1lCSlZOGYdYoRlS3Qg5GsyDS7xpSX4CqN'},
 {n:14,d:'30 de dezembro de 1922',iso:'1922-12-30',p:'1wxMGFSlQ8tXEI1hcLId0_nl75QyCjEBA',o:'1v7Wewtowvb4QXl6G7FI1TDeGUlzT8XsJ'}];
+const years=[
+{year:1922,label:'Ano completo — edições separadas',files:14,folder:'1gK_gfpTuONUmanKRRwafiFAAqttaVdo8'},
+{year:1923,label:'Ano em cinco partes PDF',files:5,folder:'17ePdntm8V4g0Y2ttroFHKG0BqwgEtm6M'},
+{year:1924,label:'Ano em onze partes PDF',files:11,folder:'1Lfehv4iLywg-xaulPM2rStWLp9PQzLvQ'},
+{year:1925,label:'Ano em quatorze partes PDF',files:14,folder:'12sOFdCauhdbShD_LyG2GI1t_5FVHWDCg'},
+{year:1926,label:'Ano em oito partes PDF',files:8,folder:'1poBuPiQGeB30J47-Ms2s-Wp8M5WB32Bl'},
+{year:1927,label:'Janeiro a maio em quatro partes PDF',files:4,folder:'1yyAZHT_y_VqjNWxMoRh5Qr5J0VZJrv3m'}];
 let pages=[];
-const el=id=>document.getElementById(id),q=el('q'),m=el('m'),s=el('s'),grid=el('grid'),results=el('searchResults'),editionArea=el('editionArea'),statusText=el('statusText'),dot=el('dot'),dlg=el('dlg'),frame=el('frame'),ttl=el('ttl');
-const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const pdfView=id=>`https://drive.google.com/file/d/${id}/view`;
-const pdfPreview=(id,page)=>`https://drive.google.com/file/d/${id}/preview${page?`#page=${page}`:''}`;
-const pdfDownload=id=>`https://drive.google.com/uc?export=download&id=${id}`;
-function editionCard(a){return `<article class="card"><div class="cover"><small>ANNO I</small><b>Santuário<br>da Trindade</b><small>Nº ${String(a.n).padStart(2,'0')} - ${esc(a.d)}</small></div><div class="body"><span class="meta">Edição nº ${a.n}</span><h3>${esc(a.d)}</h3><div class="meta">4 páginas - Campinas, Goiás</div><span class="badge">PDF pesquisável</span><div class="card-actions"><button class="btn read" data-id="${a.p}" data-title="Edição nº ${a.n} - ${esc(a.d)}">Ler</button><a class="btn alt" href="${pdfDownload(a.p)}">Baixar</a><a class="btn alt" href="${pdfView(a.o)}" target="_blank" rel="noopener">Original</a></div></div></article>`}
-function renderEditions(){const month=m.value,order=+s.value;const list=editions.filter(a=>!month||a.iso.slice(5,7)===month).sort((a,b)=>(a.n-b.n)*order);grid.innerHTML=list.map(editionCard).join('')}
-function snippet(text,terms){if(!text)return 'O OCR não produziu um trecho legível nesta página.';const n=norm(text);let pos=Infinity;for(const t of terms){const p=n.indexOf(t);if(p>=0&&p<pos)pos=p}if(!Number.isFinite(pos))pos=0;const start=Math.max(0,pos-115),end=Math.min(text.length,pos+230);return `${start?'… ':''}${esc(text.slice(start,end))}${end<text.length?' …':''}`}
-function resultCard(r,terms){return `<article class="result"><span class="badge page">Página ${r.page}</span><span class="meta"> Edição nº ${r.n}</span><h3>${esc(r.date)}</h3><div class="snippet">${snippet(r.text,terms)}</div><div class="result-actions"><button class="btn dark read" data-id="${r.pdf}" data-page="${r.page}" data-title="Edição nº ${r.n} - página ${r.page}">Ler PDF</button><a class="btn alt" href="${pdfView(r.pdf)}#page=${r.page}" target="_blank" rel="noopener">Abrir no Drive</a><a class="btn alt" href="${pdfView(r.original)}#page=${r.page}" target="_blank" rel="noopener">Original</a></div></article>`}
-function search(){const raw=q.value.trim(),terms=norm(raw).split(/\s+/).filter(Boolean),month=m.value,order=+s.value;if(!terms.length){results.classList.add('hidden');editionArea.classList.remove('hidden');renderEditions();statusText.textContent=`Índice carregado: ${pages.length} páginas pesquisáveis.`;return}editionArea.classList.add('hidden');results.classList.remove('hidden');const found=pages.filter(r=>(!month||r.iso.slice(5,7)===month)&&terms.every(t=>norm(`${r.n} ${r.date} ${r.iso} ${r.text}`).includes(t))).sort((a,b)=>((a.n-b.n)||(a.page-b.page))*order);const editionsFound=new Set(found.map(x=>x.n)).size;statusText.textContent=`${found.length} página${found.length===1?'':'s'} encontrada${found.length===1?'':'s'} em ${editionsFound} edição${editionsFound===1?'':'ões'}.`;results.innerHTML=found.length?found.map(r=>resultCard(r,terms)).join(''):`<div class="empty"><h3>Nenhuma ocorrência encontrada</h3><p>Tente outra grafia, uma palavra menor ou uma variante histórica. O OCR pode ter reconhecido a palavra incorretamente.</p></div>`}
-let timer;function schedule(){clearTimeout(timer);timer=setTimeout(search,120)}
-[q,m,s].forEach(e=>e.addEventListener('input',schedule));
-document.addEventListener('click',e=>{const b=e.target.closest('.read');if(!b)return;ttl.textContent=b.dataset.title;frame.src=pdfPreview(b.dataset.id,b.dataset.page);dlg.showModal()});
-el('x').onclick=()=>{frame.src='about:blank';dlg.close()};
-function download(type){let text,name,mime='application/json';if(type==='json'){text=JSON.stringify(pages,null,2);name='indice_textual_jst_1922.json'}else{mime='text/csv';text='numero,data,data_iso,paginas,pdf_ocr,pdf_original\n'+editions.map(a=>[a.n,`"${a.d}"`,a.iso,4,pdfView(a.p),pdfView(a.o)].join(',')).join('\n');name='catalogo_jst_1922.csv'}const u=URL.createObjectURL(new Blob([text],{type:`${mime};charset=utf-8`})),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
-el('csv').onclick=()=>download('csv');el('json').onclick=()=>download('json');
-renderEditions();
-fetch('search-index.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()}).then(data=>{pages=data;dot.classList.add('ready');statusText.textContent=`Índice carregado: ${pages.length} páginas pesquisáveis.`;search()}).catch(err=>{statusText.textContent='Não foi possível carregar o índice de busca. Recarregue a página.';console.error(err)});
+const $=id=>document.getElementById(id),q=$('q'),year=$('year'),sort=$('sort'),results=$('searchResults'),overview=$('overview'),edicoes=$('edicoes1922'),dot=$('dot'),statusText=$('statusText'),dlg=$('dlg'),frame=$('frame'),ttl=$('ttl');
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=x=>String(x??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const view=id=>`https://drive.google.com/file/d/${id}/view`;
+const preview=id=>`https://drive.google.com/file/d/${id}/preview`;
+const download=id=>`https://drive.google.com/uc?export=download&id=${id}`;
+function yearCards(){
+  $('yearGrid').innerHTML=years.map(y=>`<article class="year-card"><span class="badge pdf">PDF</span><h3>${y.year}</h3><p>${esc(y.label)}</p><p class="meta"><strong>${y.files}</strong> arquivo${y.files===1?'':'s'} de origem · <span id="count-${y.year}">índice carregando</span></p><a class="btn dark" href="https://drive.google.com/drive/folders/${y.folder}" target="_blank" rel="noopener">Abrir pasta do ano</a></article>`).join('');
+}
+function editionCards(){
+  $('editionGrid').innerHTML=editions1922.map(e=>`<article class="edition-card"><div class="cover"><small>ANNO I</small><b>Santuário<br>da Trindade</b><small>Nº ${String(e.n).padStart(2,'0')} · ${esc(e.d)}</small></div><div class="body"><h3>Edição nº ${e.n}</h3><span class="badge">PDF pesquisável</span><div class="card-actions"><button class="btn read" data-id="${e.p}" data-title="Edição nº ${e.n} — ${esc(e.d)}">Ler</button><a class="btn dark" href="${download(e.p)}">Baixar</a><a class="btn dark" href="${view(e.o)}" target="_blank">Original</a></div></div></article>`).join('');
+}
+function snippet(text,terms){
+  const t=String(text||'').replace(/\s+/g,' ').trim();
+  const nt=norm(t); let pos=-1;
+  for(const term of terms){const p=nt.indexOf(term);if(p>=0&&(pos<0||p<pos))pos=p}
+  if(pos<0)pos=0;
+  const start=Math.max(0,pos-150),end=Math.min(t.length,pos+330);
+  return `${start?'… ':''}${esc(t.slice(start,end))}${end<t.length?' …':''}`;
+}
+function pageKey(p){return [Number(p.year||1922),p.iso||'',Number(p.globalPage||p.page||0),Number(p.n||0)]}
+function runSearch(){
+  const terms=norm(q.value).split(/\s+/).filter(Boolean);
+  if(!terms.length){results.classList.add('hidden');overview.classList.remove('hidden');edicoes.classList.remove('hidden');return}
+  overview.classList.add('hidden');edicoes.classList.add('hidden');results.classList.remove('hidden');
+  const selected=year.value;
+  const found=pages.filter(p=>(!selected||String(p.year||1922)===selected)&&terms.every(t=>norm(p.text).includes(t))).sort((a,b)=>{
+    const A=pageKey(a),B=pageKey(b);for(let i=0;i<A.length;i++){if(A[i]<B[i])return -1*Number(sort.value);if(A[i]>B[i])return 1*Number(sort.value)}return 0;
+  });
+  if(!found.length){results.innerHTML='<div class="empty"><strong>Nenhuma ocorrência encontrada.</strong><br>Tente outra grafia ou uma palavra mais curta, considerando possíveis erros do OCR.</div>';return}
+  results.innerHTML=`<p class="meta"><strong>${found.length}</strong> página${found.length===1?'':'s'} encontrada${found.length===1?'':'s'}.</p>`+found.slice(0,300).map(p=>{
+    const y=Number(p.year||1922),is1922=y===1922&&p.n;
+    const heading=is1922?`1922 · Edição nº ${p.n} · página ${p.page}`:`${y} · página ${p.globalPage||p.page} do volume`;
+    const sub=is1922?esc(p.date||p.iso||''):`PDF iniciado na página ${p.sourceStart||'?'} · página ${p.localPage||'?'} do arquivo`;
+    return `<article class="result"><span class="badge">${y}</span><span class="badge page">Página ${p.globalPage||p.page}</span><h3>${heading}</h3><div class="meta">${sub}</div><div class="snippet">${snippet(p.text,terms)}</div><div class="result-actions"><button class="btn read" data-id="${p.pdf}" data-title="${esc(heading)}">Abrir PDF</button><a class="btn dark" href="${view(p.pdf)}" target="_blank" rel="noopener">Abrir no Drive</a>${p.original?`<a class="btn dark" href="${view(p.original)}" target="_blank">Original</a>`:''}</div></article>`;
+  }).join('')+(found.length>300?'<p class="notice">A busca encontrou mais de 300 páginas. Refine o termo ou selecione um ano.</p>':'');
+}
+async function loadIndex(){
+  try{
+    let r=await fetch(`search-index-all.json?v=${Date.now()}`,{cache:'no-store'});
+    if(!r.ok)r=await fetch(`search-index.json?v=${Date.now()}`,{cache:'no-store'});
+    if(!r.ok)throw new Error('índice indisponível');
+    pages=await r.json();
+    pages=pages.map(p=>({...p,year:Number(p.year||1922)}));
+    $('pageStat').textContent=pages.length.toLocaleString('pt-BR');
+    years.forEach(y=>{const n=pages.filter(p=>p.year===y.year).length,el=$(`count-${y.year}`);if(el)el.textContent=n?`${n} páginas indexadas`:'OCR em processamento'});
+    dot.className='dot ready';statusText.textContent=`Índice carregado: ${pages.length.toLocaleString('pt-BR')} páginas pesquisáveis, de ${Math.min(...pages.map(p=>p.year))} a ${Math.max(...pages.map(p=>p.year))}.`;
+    runSearch();
+  }catch(e){dot.className='dot error';statusText.textContent='Não foi possível carregar o índice de busca. Os PDFs continuam acessíveis nas pastas dos anos.'}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('.read');if(!b)return;ttl.textContent=b.dataset.title;frame.src=preview(b.dataset.id);dlg.showModal()});
+$('close').onclick=()=>{frame.src='about:blank';dlg.close()};
+[q,year,sort].forEach(el=>el.addEventListener('input',runSearch));
+yearCards();editionCards();loadIndex();
 </script>
 </body>
 </html>
