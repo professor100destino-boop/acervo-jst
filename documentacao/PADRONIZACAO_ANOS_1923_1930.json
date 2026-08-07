@@ -1,0 +1,58 @@
+{
+  "1923": {
+    "edicoes_identificadas": 11,
+    "paginas_indexadas": 110,
+    "com_numero_impresso": 10,
+    "primeira_data": "1923-02-10",
+    "ultima_data": "1923-12-15"
+  },
+  "1924": {
+    "edicoes_identificadas": 24,
+    "paginas_indexadas": 206,
+    "com_numero_impresso": 15,
+    "primeira_data": "1924-01-05",
+    "ultima_data": "1924-05-31"
+  },
+  "1925": {
+    "edicoes_identificadas": 30,
+    "paginas_indexadas": 197,
+    "com_numero_impresso": 22,
+    "primeira_data": "1925-01-03",
+    "ultima_data": "1925-12-26"
+  },
+  "1926": {
+    "edicoes_identificadas": 13,
+    "paginas_indexadas": 163,
+    "com_numero_impresso": 11,
+    "primeira_data": "1926-01-02",
+    "ultima_data": "1926-12-24"
+  },
+  "1927": {
+    "edicoes_identificadas": 16,
+    "paginas_indexadas": 107,
+    "com_numero_impresso": 13,
+    "primeira_data": "1927-07-02",
+    "ultima_data": "1927-12-17"
+  },
+  "1928": {
+    "edicoes_identificadas": 33,
+    "paginas_indexadas": 194,
+    "com_numero_impresso": 26,
+    "primeira_data": "1928-02-25",
+    "ultima_data": "1928-12-29"
+  },
+  "1929": {
+    "edicoes_identificadas": 51,
+    "paginas_indexadas": 190,
+    "com_numero_impresso": 24,
+    "primeira_data": "1929-01-05",
+    "ultima_data": "1929-12-28"
+  },
+  "1930": {
+    "edicoes_identificadas": 36,
+    "paginas_indexadas": 131,
+    "com_numero_impresso": 24,
+    "primeira_data": "1930-01-18",
+    "ultima_data": "1930-12-27"
+  }
+}
