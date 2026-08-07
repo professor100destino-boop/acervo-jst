@@ -29,40 +29,15 @@ jobs:
           python <<'PY'
           from pathlib import Path
           import re
-
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-
-          new_header = '''<header class="hero hero-image">
-  <img class="hero-banner" src="assets/banner_acervo_jst.png" alt="Santuário da Trindade — Órgam do Santuário da Trindade — Acervo Digital do Jornal Santuário da Trindade (1920–1970)">
-</header>
-<section class="banner-search" aria-label="Pesquisa no acervo">
-  <form class="hero-search" id="heroSearchForm">
-    <label class="sr-only" for="heroSearch">Pesquisar no acervo</label>
-    <input id="heroSearch" type="search" autocomplete="off" placeholder="Digite uma palavra, nome, cidade ou expressão">
-    <button class="btn" type="submit">Pesquisar no acervo</button>
-  </form>
-</section>'''
-
-          s, n = re.subn(r'<header class="hero">.*?</header>', new_header, s, count=1, flags=re.S)
-          if n != 1:
-              # aceita eventual classe extra no header
-              s, n = re.subn(r'<header class="hero[^\"]*">.*?</header>', new_header, s, count=1, flags=re.S)
+          new_header = '<header class="hero hero-image">\n  <img class="hero-banner" src="assets/banner_acervo_jst.png" alt="Santuário da Trindade — Órgam do Santuário da Trindade — Acervo Digital do Jornal Santuário da Trindade (1920–1970)">\n</header>\n<section class="banner-search" aria-label="Pesquisa no acervo">\n  <form class="hero-search" id="heroSearchForm">\n    <label class="sr-only" for="heroSearch">Pesquisar no acervo</label>\n    <input id="heroSearch" type="search" autocomplete="off" placeholder="Digite uma palavra, nome, cidade ou expressão">\n    <button class="btn" type="submit">Pesquisar no acervo</button>\n  </form>\n</section>'
+          s, n = re.subn(r'<header class="hero(?: [^"]*)?">.*?</header>', new_header, s, count=1, flags=re.S)
           if n != 1:
               raise SystemExit('Cabeçalho principal não encontrado')
-
-          css = '''
-/* Banner histórico JST */
-.hero.hero-image{display:block!important;padding:0!important;background:#efe1bd!important;color:inherit!important;min-height:0!important}
-.hero-banner{display:block;width:100%;height:auto;max-height:none;object-fit:contain;background:#efe1bd}
-.banner-search{background:#efe6d3;padding:1rem;border-bottom:1px solid #d2c3a6;box-shadow:0 5px 18px #00000012}
-.banner-search .hero-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.7rem;max-width:1080px;margin:0 auto}
-.banner-search .hero-search input{width:100%;min-width:0;padding:.9rem 1rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff;color:var(--tinta);box-shadow:0 4px 12px #00000010}
-@media(max-width:760px){.hero.hero-image{padding:0!important}.hero-banner{width:100%;height:auto}.banner-search .hero-search{grid-template-columns:1fr}.banner-search .hero-search .btn{width:100%}}
-'''
+          css = '\n/* Banner histórico JST */\n.hero.hero-image{display:block!important;padding:0!important;background:#efe1bd!important;color:inherit!important;min-height:0!important}\n.hero-banner{display:block;width:100%;height:auto;max-height:none;object-fit:contain;background:#efe1bd}\n.banner-search{background:#efe6d3;padding:1rem;border-bottom:1px solid #d2c3a6;box-shadow:0 5px 18px #00000012}\n.banner-search .hero-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.7rem;max-width:1080px;margin:0 auto}\n.banner-search .hero-search input{width:100%;min-width:0;padding:.9rem 1rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff;color:var(--tinta);box-shadow:0 4px 12px #00000010}\n@media(max-width:760px){.hero.hero-image{padding:0!important}.hero-banner{width:100%;height:auto}.banner-search .hero-search{grid-template-columns:1fr}.banner-search .hero-search .btn{width:100%}}\n'
           if '/* Banner histórico JST */' not in s:
-              s = s.replace('</style>', css + '\n</style>', 1)
-
+              s = s.replace('</style>', css + '</style>', 1)
           p.write_text(s, encoding='utf-8')
           PY
 
