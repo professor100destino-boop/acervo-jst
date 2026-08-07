@@ -1,0 +1,42 @@
+name: Integrar 1931 ao acervo
+
+on:
+  push:
+    paths:
+      - 'scripts/integrar_1931.py'
+      - '.github/workflows/integrar-1931.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  integrar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Instalar ferramentas
+        run: python -m pip install --quiet gdown pymupdf
+
+      - name: Baixar PDF anual de 1931
+        run: |
+          mkdir -p /tmp/jst
+          gdown 'https://drive.google.com/uc?id=1EJ3TynEsnPA66rIS9dxOQ8vA-nMQSyUY' -O '/tmp/jst/1931.pdf'
+
+      - name: Gerar indice e atualizar o site
+        run: python scripts/integrar_1931.py
+
+      - name: Publicar integracao
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add search-index-1931.json ano-1931.html index.html README.md documentacao/COMO_CITAR.txt
+          if git diff --cached --quiet; then
+            echo 'Sem alteracoes.'
+          else
+            git commit -m 'Integra 1931 e corrige periodo historico para 1922-1931'
+            git push origin main
+          fi
