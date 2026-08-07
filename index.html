@@ -12,6 +12,7 @@
 h1{font:700 clamp(2.5rem,7vw,5.5rem)/.92 Georgia,serif;margin:.4rem 0 1.2rem}h2{font:700 clamp(1.7rem,4vw,2.6rem)/1.1 Georgia,serif;margin-bottom:.7rem}
 .k{text-transform:uppercase;letter-spacing:.14em;font-weight:800;font-size:.75rem;color:#e0c78b}.actions,.result-actions,.card-actions{display:flex;gap:.65rem;flex-wrap:wrap}
 .btn{display:inline-block;border:0;border-radius:.55rem;padding:.72rem 1rem;background:var(--ouro);color:#fff;text-decoration:none;font-weight:800;cursor:pointer}.btn.alt{background:transparent;border:1px solid currentColor}.btn.dark{background:var(--vinho)}
+.hero-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem;max-width:760px;margin-top:1.35rem}.hero-search input{width:100%;min-width:0;padding:.85rem 1rem;border:1px solid #ffffff80;border-radius:.55rem;background:#fff;color:var(--tinta);box-shadow:0 8px 24px #0002}.hero-search input::placeholder{color:#76695b}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .paper{background:var(--papel);color:var(--tinta);padding:1.3rem;text-align:center;box-shadow:0 18px 45px #0007;transform:rotate(1deg)}.paper b{display:block;font:700 2.4rem/.9 Georgia,serif;border-block:3px double #5a462c;padding:.7rem;margin:.8rem 0}.lines{height:110px;background:repeating-linear-gradient(0deg,#60492b44 0 2px,transparent 2px 7px),repeating-linear-gradient(90deg,transparent 0 32%,#60492b44 32% 33%,transparent 33% 66%,#60492b44 66% 67%)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;max-width:1080px;margin:-1.5rem auto 2rem;position:relative;border-radius:.8rem;box-shadow:0 10px 30px #0002}.stats div{padding:1.15rem;text-align:center}.stats strong{display:block;font:700 1.9rem Georgia,serif;color:var(--vinho)}
 main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}.search-panel{background:#fff;border-radius:1rem;padding:1.2rem;box-shadow:0 10px 28px #0001;border:1px solid #e8dfd0}.search-label{font-weight:800;display:block;margin-bottom:.45rem}.search-row{display:grid;grid-template-columns:1fr auto auto;gap:.65rem}.search-row input,.search-row select{padding:.9rem;border:1px solid #b8aa92;border-radius:.55rem;background:#fff}.search-row input{min-width:0}.search-help,.meta{color:var(--cinza);font-size:.92rem}.search-help{margin:.65rem 0 0}
@@ -21,7 +22,7 @@ main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}.search-panel{backgroun
 .edition-card{overflow:hidden}.cover{background:var(--papel);padding:1rem;text-align:center;min-height:175px;display:flex;flex-direction:column;justify-content:center}.cover b{font:700 1.55rem/.95 Georgia,serif;border-block:3px double #5a462c;padding:.55rem;margin:.6rem 0}.body{padding:1rem}.body h3{margin:.15rem 0}
 .notice,.about{margin-top:2rem;background:#fff;border-left:5px solid var(--ouro);padding:1.2rem;border-radius:.4rem}.hidden{display:none!important}.empty{background:#fff;padding:2rem;border-radius:.8rem;text-align:center;border:1px dashed #b8aa92}
 footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width:min(96vw,1000px);height:88vh;border:0;border-radius:.7rem;padding:0}dialog::backdrop{background:#000b}.dh{display:flex;justify-content:space-between;align-items:center;padding:.8rem;background:#2b1b19;color:#fff}.dh button{border:0;border-radius:.4rem;padding:.45rem .7rem;cursor:pointer}iframe{width:100%;height:calc(100% - 54px);border:0}
-@media(max-width:760px){.hero{grid-template-columns:1fr;padding:2rem 1rem}.paper{display:none}.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}.search-row{grid-template-columns:1fr}.search-row input,.search-row select{width:100%}}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:2rem 1rem}.paper{display:none}.stats{grid-template-columns:repeat(2,1fr);margin:0;border-radius:0}.hero-search{grid-template-columns:1fr}.hero-search .btn{width:100%}.search-row{grid-template-columns:1fr}.search-row input,.search-row select{width:100%}}
 </style>
 </head>
 <body>
@@ -30,12 +31,11 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
     <div class="k">Acervo histórico digital — Goiás</div>
     <h1>Jornal Santuário de Trindade</h1>
     <p><strong>Pesquisa textual nos anos disponíveis em PDF.</strong> O sistema consulta o texto reconhecido por OCR e indica o ano, a edição ou volume e a página da ocorrência.</p>
-    <div class="actions">
-      <a class="btn" href="#consulta">Pesquisar no acervo</a>
-      <a class="btn alt" href="fontes-pdf.json" download>Catálogo das fontes PDF</a>
-      <a class="btn alt" href="search-index-all.json" download>Baixar índice OCR</a>
-      <a class="btn alt" href="https://drive.google.com/drive/folders/1L1NlYql-Mt9Lnbxw96eT0WWmhWqqMlNI" target="_blank" rel="noopener">Acervo completo no Drive</a>
-    </div>
+    <form class="hero-search" id="heroSearchForm">
+      <label class="sr-only" for="heroSearch">Pesquisar no acervo</label>
+      <input id="heroSearch" type="search" autocomplete="off" placeholder="Digite uma palavra, nome, cidade ou expressão">
+      <button class="btn" type="submit">Pesquisar no acervo</button>
+    </form>
   </div>
   <div class="paper"><small>ACERVO DIGITAL · 1922–1927</small><b>Santuário<br>da Trindade</b><small>Busca histórica no texto integral</small><div class="lines"></div></div>
 </header>
@@ -155,6 +155,7 @@ async function loadIndex(){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('.read');if(!b)return;ttl.textContent=b.dataset.title;frame.src=preview(b.dataset.id);dlg.showModal()});
 $('close').onclick=()=>{frame.src='about:blank';dlg.close()};
+$('heroSearchForm').addEventListener('submit',e=>{e.preventDefault();const v=$('heroSearch').value.trim();q.value=v;document.getElementById('consulta').scrollIntoView({behavior:'smooth',block:'start'});runSearch();});
 [q,year,sort].forEach(el=>el.addEventListener('input',runSearch));
 yearCards();editionCards();loadIndex();
 </script>
