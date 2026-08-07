@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade, com busca no texto reconhecido por OCR entre 1922 e 1927.">
-<title>Acervo Digital JST — Pesquisa 1922–1927</title>
+<meta name="description" content="Acervo digital pesquisável do Jornal Santuário de Trindade, com busca no texto reconhecido por OCR entre 1922 e 1928.">
+<title>Acervo Digital JST — Pesquisa 1922–1928</title>
 <style>
 :root{--vinho:#591f22;--vinho2:#2d1719;--ouro:#9b7838;--papel:#f3ead6;--tinta:#2c241b;--fundo:#eee7da;--verde:#315d43;--cinza:#6d6254}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--fundo);color:var(--tinta);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--vinho)}button,input,select{font:inherit}
@@ -48,10 +48,10 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
   </form>
 </section>
 <section class="stats">
-  <div><strong>6</strong>anos em PDF</div>
+  <div><strong>7</strong>anos em PDF</div>
   <div><strong id="pageStat">—</strong>páginas indexadas</div>
   <div><strong>OCR</strong>busca por palavra</div>
-  <div><strong>1922–1927</strong>período disponível</div>
+  <div><strong>1922–1928</strong>período disponível</div>
 </section>
 <main id="consulta">
   <div class="k">Consulta textual</div>
@@ -61,7 +61,7 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
     <div class="search-row">
       <input id="q" type="search" autocomplete="off" placeholder="Ex.: protestante, romaria, Trindade, padre, Goyaz">
       <select id="year" aria-label="Filtrar por ano">
-        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option>
+        <option value="">Todos os anos</option><option>1922</option><option>1923</option><option>1924</option><option>1925</option><option>1926</option><option>1927</option><option>1928</option>
       </select>
       <select id="sort" aria-label="Ordenar"><option value="1">Mais antigas primeiro</option><option value="-1">Mais recentes primeiro</option></select>
     </div>
@@ -83,7 +83,7 @@ footer{background:#241917;color:#eee;padding:2rem;text-align:center}dialog{width
   </section>
 
   <aside class="notice"><strong>Limites do OCR:</strong> a grafia antiga, manchas, letras apagadas, colunas e páginas fotografadas podem causar erros ou palavras não reconhecidas. Para citação acadêmica, confira sempre a imagem original indicada no resultado.</aside>
-  <section class="about"><h2>Cobertura atual</h2><p>Entram na busca os materiais que já estavam em PDF: 1922, 1923, 1924, 1925, 1926 e a primeira parte de 1927. A documentação de junho de 1927 até 1931 está em JPG e ainda não integra este índice.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização de 1922</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
+  <section class="about"><h2>Cobertura atual</h2><p>Entram na busca os materiais disponíveis em PDF de 1922 a 1928. O ano de 1927 agora está completo, e 1928 foi incorporado integralmente em três partes. Os anos posteriores serão acrescentados conforme forem convertidos para PDF e indexados.</p><p><a href="documentacao/RELATORIO_ORGANIZACAO_1922.txt">Relatório de organização de 1922</a> · <a href="documentacao/COMO_CITAR.txt">Como citar</a></p></section>
 </main>
 <footer><strong>Acervo Digital JST — Jornal Santuário de Trindade</strong><br>Organização, OCR e acesso para pesquisa histórica</footer>
 <dialog id="dlg">
@@ -114,7 +114,8 @@ const years=[
 {year:1924,label:'Ano em onze partes PDF',files:11,folder:'1Lfehv4iLywg-xaulPM2rStWLp9PQzLvQ'},
 {year:1925,label:'Ano em quatorze partes PDF',files:14,folder:'12sOFdCauhdbShD_LyG2GI1t_5FVHWDCg'},
 {year:1926,label:'Ano em oito partes PDF',files:8,folder:'1poBuPiQGeB30J47-Ms2s-Wp8M5WB32Bl'},
-{year:1927,label:'Janeiro a maio em quatro partes PDF',files:4,folder:'1yyAZHT_y_VqjNWxMoRh5Qr5J0VZJrv3m'}];
+{year:1927,label:'Ano completo em PDF',files:1,folder:'1yyAZHT_y_VqjNWxMoRh5Qr5J0VZJrv3m'},
+{year:1928,label:'Ano completo em três partes PDF',files:3,folder:'1yNHV6vMW9c14rmuBa1xD1pKK9UnzGBdW'}];
 let pages=[];
 const $=id=>document.getElementById(id),q=$('q'),year=$('year'),sort=$('sort'),results=$('searchResults'),overview=$('overview'),edicoes=$('edicoes1922'),dot=$('dot'),statusText=$('statusText'),dlg=$('dlg'),frame=$('frame'),ttl=$('ttl');
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -180,7 +181,16 @@ async function loadIndex(){
     let r=await fetch(`search-index-all.json?v=${Date.now()}`,{cache:'no-store'});
     if(!r.ok)r=await fetch(`search-index.json?v=${Date.now()}`,{cache:'no-store'});
     if(!r.ok)throw new Error('índice indisponível');
-    pages=await r.json();
+    let base=await r.json();
+    base=base.map(p=>({...p,year:Number(p.year||1922)}));
+    const extraFiles=['search-index-1927.json','search-index-1928-p1.json','search-index-1928-p70.json','search-index-1928-p153.json'];
+    const extras=[];
+    for(const f of extraFiles){
+      const x=await fetch(`${f}?v=${Date.now()}`,{cache:'no-store'});
+      if(!x.ok)throw new Error(`índice adicional indisponível: ${f}`);
+      extras.push(await x.json());
+    }
+    pages=base.filter(p=>Number(p.year||1922)!==1927).concat(...extras);
     pages=pages.map(p=>({...p,year:Number(p.year||1922)}));
     $('pageStat').textContent=pages.length.toLocaleString('pt-BR');
     years.forEach(y=>{const n=pages.filter(p=>p.year===y.year).length,el=$(`count-${y.year}`);if(el)el.textContent=n?`${n} páginas indexadas`:'OCR em processamento'});
