@@ -1,0 +1,19 @@
+name: Validar todos os anos OCR V2
+
+on:
+  push:
+    paths:
+      - '.github/workflows/validar-todos-anos-v2.yml'
+  workflow_dispatch:
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        year: [1923,1924,1925,1926,1927,1928,1929,1930,1931]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar ${{ matrix.year }}
+        run: python scripts/processar_ano_ocr_v2.py --year ${{ matrix.year }} --metadata-only
