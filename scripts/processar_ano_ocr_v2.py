@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import argparse, csv, glob, json, os, re, shutil, subprocess, sys, zipfile
+import argparse, csv, glob, html, json, re, subprocess, sys, zipfile
 from pathlib import Path
 
 EXPECTED_ISSUES={1922:14,1923:26,1924:54,1925:49,1926:40,1927:27,1928:48,1929:48,1930:32,1931:11}
+MONTHS={'janeiro':1,'fevereiro':2,'março':3,'marco':3,'abril':4,'maio':5,'junho':6,'julho':7,'agosto':8,'setembro':9,'outubro':10,'novembro':11,'dezembro':12}
 
 def year_of(p):
     try:
@@ -13,6 +14,30 @@ def year_of(p):
     m=re.search(r'\b(19\d\d)\b',str(p.get('date','')))
     return int(m.group(1)) if m else None
 
+def date_to_iso(text,year):
+    s=re.sub(r'<[^>]+>',' ',html.unescape(str(text))).strip().lower()
+    m=re.search(r'(\d{1,2})\s+de\s+([a-zçãé]+)\s+de\s+(19\d\d)',s)
+    if not m:return None
+    day=int(m.group(1));month=MONTHS.get(m.group(2));yr=int(m.group(3))
+    return f'{yr:04d}-{month:02d}-{day:02d}' if month else None
+
+def load_issue_catalog(year):
+    p=Path(f'ano-{year}.html')
+    if not p.exists():return []
+    s=p.read_text(encoding='utf-8',errors='ignore')
+    cards=[]
+    for art in re.findall(r'<article\b[^>]*class="[^"]*doc-card[^"]*"[^>]*>.*?</article>',s,re.I|re.S):
+        nm=re.search(r'<h2[^>]*>\s*Edi[cç][aã]o\s+n[ºo.]?\s*(\d+)\s*</h2>',art,re.I|re.S)
+        dm=re.search(r'<p[^>]*>(.*?)</p>',art,re.I|re.S)
+        sm=re.search(r'data-start="(\d+)"',art,re.I)
+        em=re.search(r'data-end="(\d+)"',art,re.I)
+        im=re.search(r'data-id="([^"]+)"',art,re.I)
+        if not (nm and dm and sm and em):continue
+        date=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' ',html.unescape(dm.group(1)))).strip()
+        cards.append({'n':int(nm.group(1)),'date':date,'iso':date_to_iso(date,year),'start':int(sm.group(1)),'end':int(em.group(1)),'card_pdf':im.group(1) if im else None})
+    cards.sort(key=lambda x:x['start'])
+    return cards
+
 def load_pages(year):
     files=[]
     for f in ['search-index.json','search-index-all.json']:
@@ -21,27 +46,34 @@ def load_pages(year):
     files += extra
     found={}
     for fn in files:
-        try: data=json.load(open(fn,encoding='utf-8'))
-        except Exception: continue
-        if not isinstance(data,list): continue
+        try:data=json.load(open(fn,encoding='utf-8'))
+        except Exception:continue
+        if not isinstance(data,list):continue
         for p in data:
-            if year_of(p)!=year: continue
+            if year_of(p)!=year:continue
             gp=p.get('globalPage')
-            if gp is not None:
-                key=('g',int(gp))
-            else:
-                key=('i',str(p.get('iso','')),str(p.get('n','')),int(p.get('page',0) or 0))
-            q=dict(p);q['year']=year;found[key]=q
+            if gp is not None:key=('g',int(gp))
+            else:key=('i',str(p.get('iso','')),str(p.get('n','')),int(p.get('page',0) or 0),str(p.get('pdf','')))
+            q=dict(p);q['year']=year
+            if not q.get('sourceLocalPage'):
+                try:q['sourceLocalPage']=int(q.get('localPage') or q.get('page') or 0)
+                except Exception:q['sourceLocalPage']=0
+            found[key]=q
     pages=list(found.values())
     def sk(p):
         gp=p.get('globalPage')
         if gp is not None:return (0,int(gp))
         return (1,str(p.get('iso','')),int(p.get('n',0) or 0),int(p.get('page',0) or 0))
     pages.sort(key=sk)
+    catalog=load_issue_catalog(year)
+    if catalog and all(p.get('globalPage') is not None for p in pages):
+        for p in pages:
+            gp=int(p['globalPage']);match=next((c for c in catalog if c['start']<=gp<=c['end']),None)
+            if match:
+                p['n']=match['n'];p['date']=match['date'];p['iso']=match['iso'];p['page']=gp-match['start']+1;p['issueStart']=match['start'];p['issueEnd']=match['end']
     return pages
 
-def issue_key(p):
-    return (str(p.get('iso','')), str(p.get('n','')))
+def issue_key(p):return (str(p.get('iso','')),str(p.get('n','')))
 
 def source_id(p):
     for k in ('sourcePdf','source','pdf'):
@@ -50,32 +82,30 @@ def source_id(p):
     return None
 
 def local_page(p):
-    for k in ('localPage','page'):
+    for k in ('sourceLocalPage','localPage','page'):
         try:
             v=int(p.get(k,0) or 0)
             if v>0:return v
-        except Exception: pass
+        except Exception:pass
     return None
 
-def safe_name(s):
-    return re.sub(r'[^A-Za-z0-9._-]+','_',str(s)).strip('_')
+def safe_name(s):return re.sub(r'[^A-Za-z0-9._-]+','_',str(s)).strip('_')
 
 def metadata(year,pages):
     issues={issue_key(p) for p in pages}
     sources={source_id(p) for p in pages if source_id(p)}
-    bad=[p for p in pages if not source_id(p) or not local_page(p)]
-    print(json.dumps({'year':year,'pages':len(pages),'issues':len(issues),'expected_issues':EXPECTED_ISSUES.get(year),'sources':len(sources),'bad_page_mappings':len(bad),'source_ids':sorted(sources)},ensure_ascii=False,indent=2))
-    if len(issues)!=EXPECTED_ISSUES.get(year):
-        print(f'AVISO: quantidade de edicoes {len(issues)} difere do esperado {EXPECTED_ISSUES.get(year)}',file=sys.stderr)
-    return len(bad)==0
+    bad=[p for p in pages if not source_id(p) or not local_page(p) or not p.get('n') or not p.get('iso')]
+    expected=EXPECTED_ISSUES.get(year)
+    report={'year':year,'pages':len(pages),'issues':len(issues),'expected_issues':expected,'sources':len(sources),'bad_page_mappings':len(bad),'source_ids':sorted(sources)}
+    print(json.dumps(report,ensure_ascii=False,indent=2))
+    if len(issues)!=expected:print(f'ERRO: quantidade de edicoes {len(issues)} difere do esperado {expected}',file=sys.stderr)
+    return len(bad)==0 and len(issues)==expected
 
 def download_sources(pages,cache):
     cache.mkdir(parents=True,exist_ok=True)
-    ids=sorted({source_id(p) for p in pages if source_id(p)})
-    paths={}
+    ids=sorted({source_id(p) for p in pages if source_id(p)});paths={}
     for i,sid in enumerate(ids,1):
-        out=cache/f'{safe_name(sid)}.pdf'
-        paths[sid]=out
+        out=cache/f'{safe_name(sid)}.pdf';paths[sid]=out
         if out.exists() and out.stat().st_size>10000:
             print(f'[{i}/{len(ids)}] cache {sid}',flush=True);continue
         print(f'[{i}/{len(ids)}] baixando {sid}',flush=True)
@@ -83,10 +113,8 @@ def download_sources(pages,cache):
     return paths
 
 def prep(gray,cv2):
-    bg=cv2.GaussianBlur(gray,(0,0),22)
-    norm=cv2.divide(gray,bg,scale=255)
-    c=cv2.createCLAHE(clipLimit=1.8,tileGridSize=(8,8)).apply(norm)
-    b=cv2.GaussianBlur(c,(0,0),.8)
+    bg=cv2.GaussianBlur(gray,(0,0),22);norm=cv2.divide(gray,bg,scale=255)
+    c=cv2.createCLAHE(clipLimit=1.8,tileGridSize=(8,8)).apply(norm);b=cv2.GaussianBlur(c,(0,0),.8)
     return cv2.addWeighted(c,1.35,b,-.35,0)
 
 def ocr_data(img,lang,psm,pytesseract,np,Output):
@@ -99,64 +127,49 @@ def ocr_data(img,lang,psm,pytesseract,np,Output):
         if t and c>=0:
             key=(int(d['block_num'][i]),int(d['par_num'][i]),int(d['line_num'][i]))
             lines.setdefault(key,[]).append(t);cf.append(c);words.append(t)
-    text='\n'.join(' '.join(lines[k]) for k in sorted(lines))
-    a=np.array(cf) if cf else np.array([])
+    text='\n'.join(' '.join(lines[k]) for k in sorted(lines));a=np.array(cf) if cf else np.array([])
     return {'text':text,'mean_conf':round(float(a.mean()) if len(a) else 0,2),'median_conf':round(float(np.median(a)) if len(a) else 0,2),'low_conf_pct':round(float((a<50).mean()*100) if len(a) else 100,2),'words':len(words),'chars':len(text)}
 
 def process(year,pages,source_paths,outdir):
-    import fitz, cv2, numpy as np, pytesseract
+    import fitz,cv2,numpy as np,pytesseract
     from pytesseract import Output
-    outdir.mkdir(parents=True,exist_ok=True)
-    textdir=outdir/'OCR_TEXTOS';pdfdir=outdir/'EDICOES_PDF';textdir.mkdir(exist_ok=True);pdfdir.mkdir(exist_ok=True)
-    langs=set(pytesseract.get_languages(config=''))
-    fallback_lang='por+Latin' if 'Latin' in langs else ('por+eng' if 'eng' in langs else 'por')
+    outdir.mkdir(parents=True,exist_ok=True);textdir=outdir/'OCR_TEXTOS';pdfdir=outdir/'EDICOES_PDF';textdir.mkdir(exist_ok=True);pdfdir.mkdir(exist_ok=True)
+    langs=set(pytesseract.get_languages(config=''));fallback_lang='por+Latin' if 'Latin' in langs else ('por+eng' if 'eng' in langs else 'por')
     docs={}
     def doc_for(sid):
-        if sid not in docs: docs[sid]=fitz.open(source_paths[sid])
+        if sid not in docs:docs[sid]=fitz.open(source_paths[sid])
         return docs[sid]
-    rows=[]
-    print(f'OCR de {len(pages)} paginas...',flush=True)
+    rows=[];print(f'OCR de {len(pages)} paginas...',flush=True)
     for i,p in enumerate(pages,1):
         sid=source_id(p);lp=local_page(p);doc=doc_for(sid)
-        if lp<1 or lp>doc.page_count: raise RuntimeError(f'pagina local invalida: {sid} p{lp}/{doc.page_count}')
-        pg=doc[lp-1]
-        pix=pg.get_pixmap(matrix=fitz.Matrix(150/72,150/72),colorspace=fitz.csGRAY,alpha=False)
-        gray=np.frombuffer(pix.samples,dtype=np.uint8).reshape(pix.height,pix.width)
-        img=prep(gray,cv2)
+        if lp<1 or lp>doc.page_count:raise RuntimeError(f'pagina local invalida: {sid} p{lp}/{doc.page_count}')
+        pg=doc[lp-1];pix=pg.get_pixmap(matrix=fitz.Matrix(150/72,150/72),colorspace=fitz.csGRAY,alpha=False)
+        gray=np.frombuffer(pix.samples,dtype=np.uint8).reshape(pix.height,pix.width);img=prep(gray,cv2)
         best=ocr_data(img,'por',4,pytesseract,np,Output);method='por psm4'
         if best['mean_conf']<50:
             alt=ocr_data(img,fallback_lang,3,pytesseract,np,Output)
-            if alt['mean_conf']>best['mean_conf']+2 and alt['words']>=best['words']*.80:
-                best=alt;method=f'{fallback_lang} psm3'
+            if alt['mean_conf']>best['mean_conf']+2 and alt['words']>=best['words']*.80:best=alt;method=f'{fallback_lang} psm3'
         q=dict(p);q['text']=best['text'];q['ocr_v2']=True;q['confidence']=best['mean_conf'];q['low_conf_pct']=best['low_conf_pct'];q['ocr_method']=method
         rows.append((q,best))
         if i%5==0 or i==len(pages):print(f'  {i}/{len(pages)} paginas',flush=True)
-    # PDFs individuais: copia as paginas originais sem rasterizar/recomprimir.
     groups={}
-    for q,b in rows: groups.setdefault(issue_key(q),[]).append((q,b))
+    for q,b in rows:groups.setdefault(issue_key(q),[]).append((q,b))
     manifest=[]
     for pos,(key,items) in enumerate(sorted(groups.items(),key=lambda kv:min(int(x[0].get('globalPage',10**9) or 10**9) for x in kv[1])),1):
-        items.sort(key=lambda x:int(x[0].get('globalPage',x[0].get('page',0)) or 0))
-        first=items[0][0];iso=str(first.get('iso') or f'{year}-00-00');n=first.get('n')
-        ns=f'n{int(n):03d}' if str(n).isdigit() else f'e{pos:03d}'
-        fn=f'JST_{year}_{iso}_{ns}.pdf'
+        items.sort(key=lambda x:int(x[0].get('globalPage',x[0].get('page',0)) or 0));first=items[0][0];iso=str(first.get('iso'));n=first.get('n');ns=f'n{int(n):03d}' if str(n).isdigit() else f'e{pos:03d}';fn=f'JST_{year}_{iso}_{ns}.pdf'
         nd=fitz.open()
         for q,b in items:
             sd=doc_for(source_id(q));lp=local_page(q);nd.insert_pdf(sd,from_page=lp-1,to_page=lp-1)
         nd.save(pdfdir/fn,garbage=3,deflate=False);nd.close()
-        txt='\n\n'.join(f"===== PAGINA {x[0].get('page','?')} =====\n{x[0]['text']}" for x in items)
-        txtfn=fn[:-4]+'_OCR_V2.txt';(textdir/txtfn).write_text(txt,encoding='utf-8')
+        txt='\n\n'.join(f"===== PAGINA {x[0].get('page','?')} =====\n{x[0]['text']}" for x in items);txtfn=fn[:-4]+'_OCR_V2.txt';(textdir/txtfn).write_text(txt,encoding='utf-8')
         manifest.append({'year':year,'n':n,'date':first.get('date'),'iso':iso,'pages':len(items),'pdf_file':fn,'ocr_file':txtfn,'source_ids':sorted({source_id(x[0]) for x in items})})
-    index=[q for q,b in rows]
-    json.dump(index,open(outdir/f'search-index-v2-{year}.json','w',encoding='utf-8'),ensure_ascii=False,separators=(',',':'))
-    json.dump(manifest,open(outdir/f'manifest-v2-{year}.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
+    index=[q for q,b in rows];json.dump(index,open(outdir/f'search-index-v2-{year}.json','w',encoding='utf-8'),ensure_ascii=False,separators=(',',':'));json.dump(manifest,open(outdir/f'manifest-v2-{year}.json','w',encoding='utf-8'),ensure_ascii=False,indent=2)
     with open(outdir/f'metricas-{year}.csv','w',encoding='utf-8-sig',newline='') as f:
         w=csv.writer(f);w.writerow(['edicao','data','pagina','confianca_media','mediana','abaixo_50_pct','palavras','caracteres','metodo'])
         for q,b in rows:w.writerow([q.get('n'),q.get('iso'),q.get('page'),b['mean_conf'],b['median_conf'],b['low_conf_pct'],b['words'],b['chars'],q['ocr_method']])
     with zipfile.ZipFile(outdir/f'JST_{year}_OCR_V2_TEXTOS.zip','w',zipfile.ZIP_DEFLATED) as z:
         for f in textdir.glob('*.txt'):z.write(f,f.name)
-        z.write(outdir/f'metricas-{year}.csv',f'metricas-{year}.csv')
-        z.write(outdir/f'manifest-v2-{year}.json',f'manifest-v2-{year}.json')
+        z.write(outdir/f'metricas-{year}.csv',f'metricas-{year}.csv');z.write(outdir/f'manifest-v2-{year}.json',f'manifest-v2-{year}.json')
     print(f'Concluido: {len(manifest)} edicoes, {len(index)} paginas',flush=True)
 
 if __name__=='__main__':
@@ -164,7 +177,6 @@ if __name__=='__main__':
     pages=load_pages(a.year)
     if not pages:raise SystemExit(f'Nenhuma pagina encontrada para {a.year}')
     ok=metadata(a.year,pages)
-    if not ok:raise SystemExit('Mapeamento incompleto; processamento interrompido por seguranca.')
+    if not ok:raise SystemExit('Mapeamento/catalogacao incompleto; processamento interrompido por seguranca.')
     if a.metadata_only:sys.exit(0)
-    cache=Path(a.out)/f'cache_{a.year}';sources=download_sources(pages,cache)
-    process(a.year,pages,sources,Path(a.out)/str(a.year))
+    cache=Path(a.out)/f'cache_{a.year}';sources=download_sources(pages,cache);process(a.year,pages,sources,Path(a.out)/str(a.year))
