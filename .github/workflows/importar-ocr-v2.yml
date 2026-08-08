@@ -18,7 +18,7 @@ jobs:
       - name: Baixar OCR V2 de 1922
         run: |
           python -m pip install --quiet gdown
-          gdown --id 1D14ksHQotkVBOLe5VDKxYYgfM8ifega7 -O search-index-v2-1922.json
+          gdown 1D14ksHQotkVBOLe5VDKxYYgfM8ifega7 -O search-index-v2-1922.json
           python - <<'PY'
           import json
           p='search-index-v2-1922.json'
