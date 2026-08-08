@@ -1,0 +1,16 @@
+name: Validar pipeline 1923
+
+on:
+  push:
+    paths:
+      - '.github/workflows/validar-pipeline-1923.yml'
+      - 'scripts/processar_ano_ocr_v2.py'
+  workflow_dispatch:
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar metadados e mapeamento
+        run: python scripts/processar_ano_ocr_v2.py --year 1923 --metadata-only
