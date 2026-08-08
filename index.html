@@ -196,6 +196,17 @@ async function loadIndex(){
       extras.push(await x.json());
     }
     pages=base.filter(p=>Number(p.year||1922)!==1927).concat(...extras);
+    // Camadas OCR V2: quando um ano já foi reprocessado, substitui somente
+    // o texto OCR daquele ano, preservando metadados e PDFs publicados.
+    for(const y of [1922,1923,1924,1925,1926,1927,1928,1929,1930,1931]){
+      try{
+        const vr=await fetch(`search-index-v2-${y}.json?v=${Date.now()}`,{cache:'no-store'});
+        if(vr.ok){
+          const v=(await vr.json()).map(p=>({...p,year:Number(p.year||y)}));
+          pages=pages.filter(p=>Number(p.year||1922)!==y).concat(v);
+        }
+      }catch(e){}
+    }
     pages=pages.map(p=>({...p,year:Number(p.year||1922)}));
     $('pageStat').textContent=pages.length.toLocaleString('pt-BR');
     years.forEach(y=>{const n=pages.filter(p=>p.year===y.year).length,el=$(`count-${y.year}`);if(el)el.textContent=n?`${n} páginas indexadas`:'OCR em processamento'});
