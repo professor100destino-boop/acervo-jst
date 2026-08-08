@@ -1,0 +1,20 @@
+name: Diagnosticar exceções OCR V2
+
+on:
+  push:
+    paths:
+      - '.github/workflows/diagnosticar-excecoes-v2.yml'
+      - 'scripts/diagnosticar_catalogo_v2.py'
+  workflow_dispatch:
+
+jobs:
+  diagnosticar:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        year: [1926,1931]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Diagnosticar ${{ matrix.year }}
+        run: python scripts/diagnosticar_catalogo_v2.py --year ${{ matrix.year }}
