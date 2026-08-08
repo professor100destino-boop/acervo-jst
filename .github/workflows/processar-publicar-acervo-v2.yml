@@ -1,0 +1,142 @@
+name: Processar e publicar Acervo OCR V2
+
+on:
+  push:
+    paths:
+      - '.github/workflows/processar-publicar-acervo-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  processar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        year: [1922,1923,1924,1925,1926,1927,1928,1929,1930,1931]
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OMP_THREAD_LIMIT: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar OCR e dependências
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-por
+          sudo apt-get install -y tesseract-ocr-script-latn || true
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet PyMuPDF opencv-python-headless pytesseract numpy gdown
+      - name: Processar e separar ${{ matrix.year }}
+        run: python scripts/processar_acervo_ocr_v2.py --year ${{ matrix.year }} --out saida_v2
+      - name: Adicionar camada pesquisável invisível
+        run: python scripts/adicionar_camada_pesquisavel_v2.py --year ${{ matrix.year }} --out saida_v2
+      - name: Validar produtos
+        shell: bash
+        run: |
+          YEAR='${{ matrix.year }}'
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          y=int(os.environ['YEAR'])
+          root=Path('saida_v2')/str(y)
+          idx=json.load(open(root/f'search-index-v2-{y}.json',encoding='utf-8'))
+          man=json.load(open(root/f'manifest-v2-{y}.json',encoding='utf-8'))
+          expected={1922:14,1923:26,1924:54,1925:49,1926:40,1927:27,1928:48,1929:48,1930:32,1931:12}[y]
+          pdfs=list((root/'EDICOES_PDF').glob('*.pdf'))
+          assert len(man)==expected,(y,len(man),expected)
+          assert len(pdfs)==expected,(y,len(pdfs),expected)
+          assert idx and all(p.get('ocr_v2') for p in idx)
+          assert all(p.stat().st_size>1000 for p in pdfs)
+          print('VALIDADO',y,'manifestos',len(man),'PDFs',len(pdfs),'páginas OCR',len(idx))
+          PY
+        env:
+          YEAR: ${{ matrix.year }}
+      - name: Criar pacote de textos e documentação
+        shell: bash
+        run: |
+          YEAR='${{ matrix.year }}'
+          ROOT="saida_v2/$YEAR"
+          cd "$ROOT"
+          zip -q -j "JST_${YEAR}_OCR_V2_DOCUMENTACAO.zip" "search-index-v2-${YEAR}.json" "manifest-v2-${YEAR}.json" "metricas-${YEAR}.csv" JST_${YEAR}_OCR_V2_TEXTOS.zip $(test -f "exclusoes-${YEAR}.json" && echo "exclusoes-${YEAR}.json" || true)
+      - name: Publicar PDFs individuais no GitHub Releases
+        shell: bash
+        run: |
+          YEAR='${{ matrix.year }}'
+          ROOT="saida_v2/$YEAR"
+          TAG="ocr-v2-$YEAR"
+          TITLE="JST $YEAR — Edições individuais OCR V2"
+          NOTES="Acervo Digital JST — Jornal Santuário de Trindade. PDFs separados por exemplar, preservando visualmente as digitalizações originais e acrescentando camada OCR V2 invisível para pesquisa. O OCR é uma transcrição automática e pode conter erros; consulte sempre a imagem da fonte."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG já existe; atualizando arquivos."
+          else
+            gh release create "$TAG" --title "$TITLE" --notes "$NOTES"
+          fi
+          for f in "$ROOT"/EDICOES_PDF/*.pdf; do
+            gh release upload "$TAG" "$f" --clobber
+          done
+          gh release upload "$TAG" "$ROOT/JST_${YEAR}_OCR_V2_TEXTOS.zip" "$ROOT/JST_${YEAR}_OCR_V2_DOCUMENTACAO.zip" "$ROOT/metricas-${YEAR}.csv" "$ROOT/manifest-v2-${YEAR}.json" --clobber
+          if test -f "$ROOT/exclusoes-${YEAR}.json"; then gh release upload "$TAG" "$ROOT/exclusoes-${YEAR}.json" --clobber; fi
+      - name: Preparar metadados para integração ao site
+        shell: bash
+        run: |
+          YEAR='${{ matrix.year }}'
+          mkdir -p "meta-$YEAR"
+          cp "saida_v2/$YEAR/search-index-v2-$YEAR.json" "meta-$YEAR/"
+          cp "saida_v2/$YEAR/manifest-v2-$YEAR.json" "meta-$YEAR/"
+          cp "saida_v2/$YEAR/metricas-$YEAR.csv" "meta-$YEAR/"
+          test ! -f "saida_v2/$YEAR/exclusoes-$YEAR.json" || cp "saida_v2/$YEAR/exclusoes-$YEAR.json" "meta-$YEAR/"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocr-v2-meta-${{ matrix.year }}
+          path: meta-${{ matrix.year }}/
+          retention-days: 7
+
+  integrar-site:
+    needs: processar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ocr-v2-meta-*
+          path: metadados
+          merge-multiple: true
+      - name: Instalar índices V2 no site
+        run: |
+          for y in 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931; do
+            cp "metadados/search-index-v2-$y.json" "search-index-v2-$y.json"
+            cp "metadados/manifest-v2-$y.json" "manifest-v2-$y.json"
+          done
+          python scripts/publicar_v2_no_site.py
+      - name: Validar referências públicas
+        run: |
+          python - <<'PY'
+          import json,re
+          from pathlib import Path
+          for y in range(1922,1932):
+              idx=json.load(open(f'search-index-v2-{y}.json',encoding='utf-8'))
+              man=json.load(open(f'manifest-v2-{y}.json',encoding='utf-8'))
+              html=Path(f'ano-{y}.html').read_text(encoding='utf-8')
+              assert idx and man
+              assert f'search-index-v2-{y}.json' in html
+              for m in man:
+                  assert m['pdf_file'] in html,(y,m['pdf_file'])
+          print('Todos os anos e links públicos validados.')
+          PY
+      - name: Publicar índices e páginas atualizadas
+        run: |
+          git config user.name 'acervo-jst-bot'
+          git config user.email 'acervo-jst-bot@users.noreply.github.com'
+          git add index.html ano-*.html search-index-v2-*.json manifest-v2-*.json
+          if git diff --cached --quiet; then
+            echo 'Nenhuma alteração para publicar.'
+          else
+            git commit -m 'Publica acervo completo com OCR V2 e PDFs individuais'
+            git push
+          fi
