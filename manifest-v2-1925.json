@@ -1,0 +1,598 @@
+[
+  {
+    "year": 1925,
+    "n": 1,
+    "date": "3 de janeiro de 1925",
+    "iso": "1925-01-03",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-01-03_n001.pdf",
+    "ocr_file": "JST_1925_1925-01-03_n001_OCR_V2.txt",
+    "source_ids": [
+      "1sRVAY9_UjjOL0_7sAGIwAS0i4cMBP6mH"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 2,
+    "date": "10 de janeiro de 1925",
+    "iso": "1925-01-10",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-01-10_n002.pdf",
+    "ocr_file": "JST_1925_1925-01-10_n002_OCR_V2.txt",
+    "source_ids": [
+      "1sRVAY9_UjjOL0_7sAGIwAS0i4cMBP6mH"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 3,
+    "date": "17 de janeiro de 1925",
+    "iso": "1925-01-17",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-01-17_n003.pdf",
+    "ocr_file": "JST_1925_1925-01-17_n003_OCR_V2.txt",
+    "source_ids": [
+      "1sRVAY9_UjjOL0_7sAGIwAS0i4cMBP6mH"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 4,
+    "date": "24 de janeiro de 1925",
+    "iso": "1925-01-24",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-01-24_n004.pdf",
+    "ocr_file": "JST_1925_1925-01-24_n004_OCR_V2.txt",
+    "source_ids": [
+      "1DxUqKc04MvRit2RGsbUsOqi8TQxIFyqt",
+      "1sRVAY9_UjjOL0_7sAGIwAS0i4cMBP6mH"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 5,
+    "date": "31 de janeiro de 1925",
+    "iso": "1925-01-31",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-01-31_n005.pdf",
+    "ocr_file": "JST_1925_1925-01-31_n005_OCR_V2.txt",
+    "source_ids": [
+      "1DxUqKc04MvRit2RGsbUsOqi8TQxIFyqt"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 6,
+    "date": "7 de fevereiro de 1925",
+    "iso": "1925-02-07",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-02-07_n006.pdf",
+    "ocr_file": "JST_1925_1925-02-07_n006_OCR_V2.txt",
+    "source_ids": [
+      "1DxUqKc04MvRit2RGsbUsOqi8TQxIFyqt"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 7,
+    "date": "14 de fevereiro de 1925",
+    "iso": "1925-02-14",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-02-14_n007.pdf",
+    "ocr_file": "JST_1925_1925-02-14_n007_OCR_V2.txt",
+    "source_ids": [
+      "1DxUqKc04MvRit2RGsbUsOqi8TQxIFyqt"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 8,
+    "date": "21 de fevereiro de 1925",
+    "iso": "1925-02-21",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-02-21_n008.pdf",
+    "ocr_file": "JST_1925_1925-02-21_n008_OCR_V2.txt",
+    "source_ids": [
+      "1VeDPzXQ4vUEP5R6uK6n_errior72cFZW"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 9,
+    "date": "28 de fevereiro de 1925",
+    "iso": "1925-02-28",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-02-28_n009.pdf",
+    "ocr_file": "JST_1925_1925-02-28_n009_OCR_V2.txt",
+    "source_ids": [
+      "1VeDPzXQ4vUEP5R6uK6n_errior72cFZW"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 10,
+    "date": "25 de fevereiro de 1925",
+    "iso": "1925-02-25",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-02-25_n010.pdf",
+    "ocr_file": "JST_1925_1925-02-25_n010_OCR_V2.txt",
+    "source_ids": [
+      "1VeDPzXQ4vUEP5R6uK6n_errior72cFZW"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 11,
+    "date": "4 de março de 1925",
+    "iso": "1925-03-04",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-03-04_n011.pdf",
+    "ocr_file": "JST_1925_1925-03-04_n011_OCR_V2.txt",
+    "source_ids": [
+      "1HnEUK7B1D4WppifmiXFK-YEKHHNm6IvX",
+      "1VeDPzXQ4vUEP5R6uK6n_errior72cFZW"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 12,
+    "date": "21 de março de 1925",
+    "iso": "1925-03-21",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-03-21_n012.pdf",
+    "ocr_file": "JST_1925_1925-03-21_n012_OCR_V2.txt",
+    "source_ids": [
+      "1HnEUK7B1D4WppifmiXFK-YEKHHNm6IvX"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 13,
+    "date": "28 de março de 1925",
+    "iso": "1925-03-28",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-03-28_n013.pdf",
+    "ocr_file": "JST_1925_1925-03-28_n013_OCR_V2.txt",
+    "source_ids": [
+      "1HnEUK7B1D4WppifmiXFK-YEKHHNm6IvX"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 14,
+    "date": "4 de abril de 1925",
+    "iso": "1925-04-04",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-04-04_n014.pdf",
+    "ocr_file": "JST_1925_1925-04-04_n014_OCR_V2.txt",
+    "source_ids": [
+      "1HnEUK7B1D4WppifmiXFK-YEKHHNm6IvX"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 15,
+    "date": "11 de abril de 1925",
+    "iso": "1925-04-11",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-04-11_n015.pdf",
+    "ocr_file": "JST_1925_1925-04-11_n015_OCR_V2.txt",
+    "source_ids": [
+      "1HnEUK7B1D4WppifmiXFK-YEKHHNm6IvX",
+      "1cWIpQnc0bB7BO4N-mXIsbtykGvTQ-RE6"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 16,
+    "date": "25 de abril de 1925",
+    "iso": "1925-04-25",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-04-25_n016.pdf",
+    "ocr_file": "JST_1925_1925-04-25_n016_OCR_V2.txt",
+    "source_ids": [
+      "1cWIpQnc0bB7BO4N-mXIsbtykGvTQ-RE6"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 17,
+    "date": "2 de maio de 1925",
+    "iso": "1925-05-02",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-05-02_n017.pdf",
+    "ocr_file": "JST_1925_1925-05-02_n017_OCR_V2.txt",
+    "source_ids": [
+      "1cWIpQnc0bB7BO4N-mXIsbtykGvTQ-RE6"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 18,
+    "date": "9 de maio de 1925",
+    "iso": "1925-05-09",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-05-09_n018.pdf",
+    "ocr_file": "JST_1925_1925-05-09_n018_OCR_V2.txt",
+    "source_ids": [
+      "1cWIpQnc0bB7BO4N-mXIsbtykGvTQ-RE6"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 19,
+    "date": "16 de maio de 1925",
+    "iso": "1925-05-16",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-05-16_n019.pdf",
+    "ocr_file": "JST_1925_1925-05-16_n019_OCR_V2.txt",
+    "source_ids": [
+      "1Q_HetSWarCLA9gGPB4l9j-4wqHuGTelQ",
+      "1cWIpQnc0bB7BO4N-mXIsbtykGvTQ-RE6"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 20,
+    "date": "23 de maio de 1925",
+    "iso": "1925-05-23",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-05-23_n020.pdf",
+    "ocr_file": "JST_1925_1925-05-23_n020_OCR_V2.txt",
+    "source_ids": [
+      "1Q_HetSWarCLA9gGPB4l9j-4wqHuGTelQ"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 21,
+    "date": "30 de maio de 1925",
+    "iso": "1925-05-30",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-05-30_n021.pdf",
+    "ocr_file": "JST_1925_1925-05-30_n021_OCR_V2.txt",
+    "source_ids": [
+      "1Q_HetSWarCLA9gGPB4l9j-4wqHuGTelQ"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 22,
+    "date": "6 de junho de 1925",
+    "iso": "1925-06-06",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-06-06_n022.pdf",
+    "ocr_file": "JST_1925_1925-06-06_n022_OCR_V2.txt",
+    "source_ids": [
+      "1Q_HetSWarCLA9gGPB4l9j-4wqHuGTelQ"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 23,
+    "date": "13 de junho de 1925",
+    "iso": "1925-06-13",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-06-13_n023.pdf",
+    "ocr_file": "JST_1925_1925-06-13_n023_OCR_V2.txt",
+    "source_ids": [
+      "1J-23J0fMzIlMmAs3HzUshPX4vm3VK7kD"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 24,
+    "date": "20 de junho de 1925",
+    "iso": "1925-06-20",
+    "pages": 2,
+    "pdf_file": "JST_1925_1925-06-20_n024.pdf",
+    "ocr_file": "JST_1925_1925-06-20_n024_OCR_V2.txt",
+    "source_ids": [
+      "1J-23J0fMzIlMmAs3HzUshPX4vm3VK7kD"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 25,
+    "date": "4 de julho de 1925",
+    "iso": "1925-07-04",
+    "pages": 6,
+    "pdf_file": "JST_1925_1925-07-04_n025.pdf",
+    "ocr_file": "JST_1925_1925-07-04_n025_OCR_V2.txt",
+    "source_ids": [
+      "1J-23J0fMzIlMmAs3HzUshPX4vm3VK7kD"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 26,
+    "date": "11 de julho de 1925",
+    "iso": "1925-07-11",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-07-11_n026.pdf",
+    "ocr_file": "JST_1925_1925-07-11_n026_OCR_V2.txt",
+    "source_ids": [
+      "1J-23J0fMzIlMmAs3HzUshPX4vm3VK7kD",
+      "1iwXinjBhCs_pZvaKxi1ALj2ZdzlFG9dN"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 27,
+    "date": "18 de julho de 1925",
+    "iso": "1925-07-18",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-07-18_n027.pdf",
+    "ocr_file": "JST_1925_1925-07-18_n027_OCR_V2.txt",
+    "source_ids": [
+      "1iwXinjBhCs_pZvaKxi1ALj2ZdzlFG9dN"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 28,
+    "date": "25 de julho de 1925",
+    "iso": "1925-07-25",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-07-25_n028.pdf",
+    "ocr_file": "JST_1925_1925-07-25_n028_OCR_V2.txt",
+    "source_ids": [
+      "1iwXinjBhCs_pZvaKxi1ALj2ZdzlFG9dN"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 29,
+    "date": "8 de agosto de 1925",
+    "iso": "1925-08-08",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-08-08_n029.pdf",
+    "ocr_file": "JST_1925_1925-08-08_n029_OCR_V2.txt",
+    "source_ids": [
+      "1iwXinjBhCs_pZvaKxi1ALj2ZdzlFG9dN"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 30,
+    "date": "15 de agosto de 1925",
+    "iso": "1925-08-15",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-08-15_n030.pdf",
+    "ocr_file": "JST_1925_1925-08-15_n030_OCR_V2.txt",
+    "source_ids": [
+      "1NEALwjdH4XiTmc5IIqwYQOWYR0xSyZMu",
+      "1iwXinjBhCs_pZvaKxi1ALj2ZdzlFG9dN"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 31,
+    "date": "22 de agosto de 1925",
+    "iso": "1925-08-22",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-08-22_n031.pdf",
+    "ocr_file": "JST_1925_1925-08-22_n031_OCR_V2.txt",
+    "source_ids": [
+      "1NEALwjdH4XiTmc5IIqwYQOWYR0xSyZMu"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 32,
+    "date": "28 de agosto de 1925",
+    "iso": "1925-08-28",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-08-28_n032.pdf",
+    "ocr_file": "JST_1925_1925-08-28_n032_OCR_V2.txt",
+    "source_ids": [
+      "1NEALwjdH4XiTmc5IIqwYQOWYR0xSyZMu"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 33,
+    "date": "5 de setembro de 1925",
+    "iso": "1925-09-05",
+    "pages": 5,
+    "pdf_file": "JST_1925_1925-09-05_n033.pdf",
+    "ocr_file": "JST_1925_1925-09-05_n033_OCR_V2.txt",
+    "source_ids": [
+      "1NEALwjdH4XiTmc5IIqwYQOWYR0xSyZMu"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 34,
+    "date": "12 de setembro de 1925",
+    "iso": "1925-09-12",
+    "pages": 5,
+    "pdf_file": "JST_1925_1925-09-12_n034.pdf",
+    "ocr_file": "JST_1925_1925-09-12_n034_OCR_V2.txt",
+    "source_ids": [
+      "1I12yRyh2GFOyTMHwQHXycihoDRZBTCgm"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 35,
+    "date": "26 de setembro de 1925",
+    "iso": "1925-09-26",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-09-26_n035.pdf",
+    "ocr_file": "JST_1925_1925-09-26_n035_OCR_V2.txt",
+    "source_ids": [
+      "1I12yRyh2GFOyTMHwQHXycihoDRZBTCgm"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 36,
+    "date": "3 de outubro de 1925",
+    "iso": "1925-10-03",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-10-03_n036.pdf",
+    "ocr_file": "JST_1925_1925-10-03_n036_OCR_V2.txt",
+    "source_ids": [
+      "1I12yRyh2GFOyTMHwQHXycihoDRZBTCgm"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 37,
+    "date": "10 de outubro de 1925",
+    "iso": "1925-10-10",
+    "pages": 5,
+    "pdf_file": "JST_1925_1925-10-10_n037.pdf",
+    "ocr_file": "JST_1925_1925-10-10_n037_OCR_V2.txt",
+    "source_ids": [
+      "1I12yRyh2GFOyTMHwQHXycihoDRZBTCgm",
+      "1MgpnvF5D4HVW_dHvIEncRAWdrk1-oQ6G"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 38,
+    "date": "17 de outubro de 1925",
+    "iso": "1925-10-17",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-10-17_n038.pdf",
+    "ocr_file": "JST_1925_1925-10-17_n038_OCR_V2.txt",
+    "source_ids": [
+      "1MgpnvF5D4HVW_dHvIEncRAWdrk1-oQ6G"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 39,
+    "date": "24 de outubro de 1925",
+    "iso": "1925-10-24",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-10-24_n039.pdf",
+    "ocr_file": "JST_1925_1925-10-24_n039_OCR_V2.txt",
+    "source_ids": [
+      "1MgpnvF5D4HVW_dHvIEncRAWdrk1-oQ6G"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 40,
+    "date": "31 de outubro de 1925",
+    "iso": "1925-10-31",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-10-31_n040.pdf",
+    "ocr_file": "JST_1925_1925-10-31_n040_OCR_V2.txt",
+    "source_ids": [
+      "1MgpnvF5D4HVW_dHvIEncRAWdrk1-oQ6G"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 41,
+    "date": "7 de novembro de 1925",
+    "iso": "1925-11-07",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-11-07_n041.pdf",
+    "ocr_file": "JST_1925_1925-11-07_n041_OCR_V2.txt",
+    "source_ids": [
+      "1LR3UDz4ECFZd75sZxsqjp4Fv3vYuZtUF"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 42,
+    "date": "1 de novembro de 1925",
+    "iso": "1925-11-01",
+    "pages": 6,
+    "pdf_file": "JST_1925_1925-11-01_n042.pdf",
+    "ocr_file": "JST_1925_1925-11-01_n042_OCR_V2.txt",
+    "source_ids": [
+      "1LR3UDz4ECFZd75sZxsqjp4Fv3vYuZtUF"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 43,
+    "date": "21 de novembro de 1925",
+    "iso": "1925-11-21",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-11-21_n043.pdf",
+    "ocr_file": "JST_1925_1925-11-21_n043_OCR_V2.txt",
+    "source_ids": [
+      "1LR3UDz4ECFZd75sZxsqjp4Fv3vYuZtUF"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 44,
+    "date": "28 de novembro de 1925",
+    "iso": "1925-11-28",
+    "pages": 3,
+    "pdf_file": "JST_1925_1925-11-28_n044.pdf",
+    "ocr_file": "JST_1925_1925-11-28_n044_OCR_V2.txt",
+    "source_ids": [
+      "1LR3UDz4ECFZd75sZxsqjp4Fv3vYuZtUF",
+      "1ZbD5TV17NLB0S2UwkBcqs54jDR5C2UEr"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 45,
+    "date": "5 de dezembro de 1925",
+    "iso": "1925-12-05",
+    "pages": 1,
+    "pdf_file": "JST_1925_1925-12-05_n045.pdf",
+    "ocr_file": "JST_1925_1925-12-05_n045_OCR_V2.txt",
+    "source_ids": [
+      "1ZbD5TV17NLB0S2UwkBcqs54jDR5C2UEr"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 46,
+    "date": "5 de dezembro de 1925",
+    "iso": "1925-12-05",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-12-05_n046.pdf",
+    "ocr_file": "JST_1925_1925-12-05_n046_OCR_V2.txt",
+    "source_ids": [
+      "1ZbD5TV17NLB0S2UwkBcqs54jDR5C2UEr"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 47,
+    "date": "12 de dezembro de 1925",
+    "iso": "1925-12-12",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-12-12_n047.pdf",
+    "ocr_file": "JST_1925_1925-12-12_n047_OCR_V2.txt",
+    "source_ids": [
+      "1ZbD5TV17NLB0S2UwkBcqs54jDR5C2UEr"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 48,
+    "date": "19 de dezembro de 1925",
+    "iso": "1925-12-19",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-12-19_n048.pdf",
+    "ocr_file": "JST_1925_1925-12-19_n048_OCR_V2.txt",
+    "source_ids": [
+      "1ZbD5TV17NLB0S2UwkBcqs54jDR5C2UEr"
+    ]
+  },
+  {
+    "year": 1925,
+    "n": 49,
+    "date": "26 de dezembro de 1925",
+    "iso": "1925-12-26",
+    "pages": 4,
+    "pdf_file": "JST_1925_1925-12-26_n049.pdf",
+    "ocr_file": "JST_1925_1925-12-26_n049_OCR_V2.txt",
+    "source_ids": [
+      "1TsLaIyhINJ8y9X5BdmLAKlLdi4mmnWco"
+    ]
+  }
+]
